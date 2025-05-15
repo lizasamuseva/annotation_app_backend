@@ -1,11 +1,11 @@
-from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeUtilities
+from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeFunctions
 
 class Event:
     def __init__(self, event_info, rml_offset_time):
         self.__create_event_name(event_info)
         self.__non_synchronised_onset_time = event_info["@Start"]
-        self.__synchronised_onset_time = DateTimeUtilities.calculate_timedelta_plus_time_in_seconds(self.__non_synchronised_onset_time, rml_offset_time)
-        self.__end_time = DateTimeUtilities.calculate_timedelta_plus_time_in_seconds(self.__synchronised_onset_time, event_info["@Duration"])
+        self.__synchronised_onset_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.__non_synchronised_onset_time, rml_offset_time)
+        self.__end_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.__synchronised_onset_time, event_info["@Duration"])
 
     # Create the comment name structure
     def __create_event_name(self, event):

@@ -23,14 +23,15 @@ from annotation.customFunctions.Utilities.Validation.FileValidation.EPPGValidati
 from annotation.customFunctions.Utilities.Validation.FileValidation.RMLValidation import RMLValidation
 from annotation.customFunctions.Utilities.Validation.FilterValidation import FilterValidation
 from annotation.customFunctions.Utilities.Validation.RequestValidation import RequestValidation
-from annotation.customFunctions.additionalFunctions import open_output_file
-from annotation.customFunctions.customExceptions import MissingRMLKeyError, InvalidRMLStructure, EppgFileInvalid
+from annotation.customFunctions.Utilities.customExceptions import MissingRMLKeyError, InvalidRMLStructure, EppgFileInvalid
 
 logger = logging.getLogger(__name__)
 
 class GetFiltersView(APIView):
     def post(self, request):
         path_to_RML = None
+        # This will ensure a session is created
+        request.session.modified = True
         try:
             # Step 1: Validation
             uploaded_file = RMLValidation(request).validate()
@@ -128,7 +129,9 @@ class AnnotateView(APIView):
 
             annotation_manager = ProcessAnnotations(RML_dict, EPPG_path, filters)
             output_file_path = annotation_manager.add_annotations()
+            logger.error(output_file_path)
             if os.path.exists(output_file_path):
+
                 file = open(output_file_path, 'rb')
                 filename = os.path.basename(EPPG_path)
                 response = FileResponse(file, content_type='text/plain')

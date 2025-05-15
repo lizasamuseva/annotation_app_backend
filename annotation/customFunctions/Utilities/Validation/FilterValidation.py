@@ -7,6 +7,7 @@ from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_A
 from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
+redis_client = cache.client.get_client()
 
 
 class FilterValidation:
@@ -21,7 +22,11 @@ class FilterValidation:
 
     @staticmethod
     def are_filters_allowed(request, required_filters):
+        logger.error(CACHE_KEY_ALL_POSSIBLE_FILTERS)
+        cache_key = request.session.get(CACHE_KEY_ALL_POSSIBLE_FILTERS)
+        logger.error("Cache key from session: %s", cache_key)
         all_filters = cache.get(request.session[CACHE_KEY_ALL_POSSIBLE_FILTERS])
+        redis_client = cache.client.get_client()
 
         if not all_filters:
             raise ValidationError("Filter cache is empty or expired.")

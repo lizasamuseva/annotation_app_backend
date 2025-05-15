@@ -4,7 +4,7 @@
 # Attention, the function is for root, which is list
 from abc import abstractmethod, ABC
 import logging
-from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeUtilities
+from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeFunctions
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +48,7 @@ class ContinuousStructureList(ContinuousStructure):
 
     def write_into_comments(self, line_time_in_seconds, string_comment, element_group, rml_offset_time):
         if self.current_number_of_element < self.root_length:
-            current_element_time = DateTimeUtilities.calculate_timedelta_plus_time_in_seconds(self.root[self.current_number_of_element]["@Start"], rml_offset_time)
+            current_element_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.root[self.current_number_of_element]["@Start"], rml_offset_time)
             if line_time_in_seconds == current_element_time:
                 string_comment = self.edit_comment(string_comment, element_group)
                 self.current_number_of_element += 1
@@ -79,7 +79,7 @@ class ContinuousStructureNotList(ContinuousStructure):
 
     def write_into_comments(self, line_time_in_seconds, string_comment, element_group, rml_offset_time):
         if not self.element_was_skipped:
-            element_start_time = DateTimeUtilities.calculate_timedelta_plus_time_in_seconds(self.root["@Start"], rml_offset_time)
+            element_start_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.root["@Start"], rml_offset_time)
             if line_time_in_seconds == element_start_time:
                 self.element_is_recorded = True
                 string_comment = self.edit_comment(string_comment, element_group)

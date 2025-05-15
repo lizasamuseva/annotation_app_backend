@@ -1,7 +1,7 @@
 import logging
 
 from annotation.customFunctions.Utilities.Validation.FileValidation.BaseFileValidation import BaseFileValidation
-from annotation.customFunctions.customExceptions import EppgFileInvalid
+from annotation.customFunctions.Utilities.customExceptions import EppgFileInvalid
 
 logger = logging.getLogger(__name__)
 

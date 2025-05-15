@@ -8,7 +8,7 @@ from api import settings
 
 from .AnnotationsTypes.TypeEvent.EventRecordsNotList import EventRecordsNotList
 from .Utilities.Constants.constants import RECORD_TIME_ROOT_PATH
-from .Utilities.DateTimeFunctions import DateTimeUtilities
+from .Utilities.DateTimeFunctions import DateTimeFunctions
 from .Utilities.ParserRML import ParserRML
 from .AnnotationsTypes.TypeEvent.EventRecordsList import EventRecordsList
 from .AnnotationsTypes.ContinuousStructures.ContinuousStructure import ContinuousStructureList, ContinuousStructureNotList
@@ -33,8 +33,8 @@ class ProcessAnnotations:
 
 
     def calculate_time_offset(self, rml_datetime_recording, date_time_line):
-        ePPG_datetime_recording = DateTimeUtilities.convert_serial_number_to_date(float(date_time_line.split("=")[1].split("\n")[0]))
-        time_offset = DateTimeUtilities.compare_datetime_from_rml_and_ePPG(rml_datetime_recording, ePPG_datetime_recording)
+        ePPG_datetime_recording = DateTimeFunctions.convert_serial_number_to_date(float(date_time_line.split("=")[1].split("\n")[0]))
+        time_offset = DateTimeFunctions.compare_datetime_from_rml_and_ePPG(rml_datetime_recording, ePPG_datetime_recording)
 
         self.ePPG_offset_time = timedelta(seconds=0).total_seconds()
         self.RML_offset_time = timedelta(seconds=0).total_seconds()
@@ -76,7 +76,7 @@ class ProcessAnnotations:
                 logger.error(f"File {self.ePPG_path} does not exist.")
                 return
 
-            rml_datetime_recording = DateTimeUtilities.convert_datetime_from_rml(
+            rml_datetime_recording = DateTimeFunctions.convert_datetime_from_rml(
                 ParserRML.get_nested_root_element(self.RML_dict, RECORD_TIME_ROOT_PATH)
             )
             fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT))
@@ -94,8 +94,8 @@ class ProcessAnnotations:
 
                     for line in lines[2:]:
                         line_time = line.split("\t")[0]
-                        line_time_in_seconds = DateTimeUtilities.convert_time_of_occasion_into_seconds(line_time)
-                        line_time_with_delta = DateTimeUtilities.calculate_timedelta_plus_time_in_seconds(
+                        line_time_in_seconds = DateTimeFunctions.convert_time_of_occasion_into_seconds(line_time)
+                        line_time_with_delta = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(
                             line_time_in_seconds, self.ePPG_offset_time
                         )
                         string_comment = line
