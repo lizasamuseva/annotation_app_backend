@@ -2,6 +2,9 @@ from annotation.customFunctions.Utilities.Validation.FileValidation.BaseFileVali
 
 
 class RMLValidation(BaseFileValidation):
+    """
+    Class validation for PSG files.
+    """
     def __init__(self, request):
         super().__init__("RML")
         self.request = request

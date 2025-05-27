@@ -1,14 +1,16 @@
 from datetime import datetime, timedelta
 
+from annotation.customFunctions.Utilities.CustomExceptions import EppgFileInvalid
+
 class DateTimeFunctions:
     """
-       Utility class for handling date and time conversions/synchronization related to ePPG and PSG files.
+       Utility class for handling date and time conversions/synchronization related to ePPG and PSG files time difference.
     """
 
     @staticmethod
     def convert_serial_number_to_date(serial_number_date):
         """
-            Converts the date and time (in serial number) of the ePPG file into datetime format
+            Converts the date and time (in serial number) of the ePPG file into datetime format.
             Further information about serial numbers is described in the LabChart documentation
             https://www.adinstruments.com/support/knowledge-base/how-do-i-set-specific-start-time-and-date-imported-text-file
         """
@@ -28,7 +30,7 @@ class DateTimeFunctions:
     @staticmethod
     def convert_datetime_from_rml(datetime_element):
         """
-            Converts the date and time of recording start from PSG file into datetime format
+            Converts the recording start date/time from PSG file into datetime format
         """
         return datetime.strptime(datetime_element,"%Y-%m-%dT%H:%M:%S")
 
@@ -36,22 +38,23 @@ class DateTimeFunctions:
     @staticmethod
     def compare_datetime_from_rml_and_ePPG(rml_datetime, ePPG_datetime):
         """
-            Compares the difference between PSG and ePPG start date/time recording
+            Compares the difference between PSG and ePPG start date/time recordings.
             Returns positive value, if PSG recording started earlier than ePPG recording
             Returns negative value, if ePPG started recording earlier
-            EXCEPTION is raised, when the difference between file's times is more than 8 hours
+            EppgFileInvalid is raised, when the difference between file's times is more than 8 hours
         """
         maximum_possible_difference = timedelta(hours=8)
         difference_between_datetime = rml_datetime - ePPG_datetime
         if abs(difference_between_datetime) >= maximum_possible_difference:
-            raise Exception("Mistake: review your files, they have the difference more than 8 hours.")
+            raise EppgFileInvalid("Review your files, they have the difference more than 8 hours.")
         return difference_between_datetime.total_seconds()
 
 
     @staticmethod
     def calculate_timedelta_plus_time_in_seconds(start, delta):
         """
-            Calculates the synchronization time between ePPG and PSG time records.
+            Adjusts the synchronisation time delta to the event time from ePPG/PSG.
+            Outputs the synchronized time.
 
             Example:
                 Input: start = 113, delta = 17.5
@@ -97,7 +100,7 @@ class DateTimeFunctions:
     def convert_time_of_occasion_into_seconds(time):
         """
             This function converts the time of ePPG time record to seconds.
-            This is useful for further comparison of time between ePPG and PSG records.
+            This is useful for comparison of event's time between ePPG and PSG records.
 
             Example:
                 Input: "00:00:10.000"
