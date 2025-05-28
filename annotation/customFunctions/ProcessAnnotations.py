@@ -100,7 +100,6 @@ class ProcessAnnotations:
         """
         # Check if the file exists before proceeding
         if not os.path.exists(self.ePPG_path):
-            logger.error(f"File {self.ePPG_path} does not exist.")
             raise FileNotFoundError
 
         rml_datetime_recording = DateTimeFunctions.convert_datetime_from_rml(
