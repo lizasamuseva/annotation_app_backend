@@ -1,4 +1,3 @@
-import logging
 import os
 import traceback
 from datetime import timedelta
@@ -10,8 +9,6 @@ from .Utilities.DateTimeFunctions import DateTimeFunctions
 from .Utilities.ParserRML import ParserRML
 from .AnnotationsTypes.TypeEvent.EventRecordsList import EventRecordsList
 from .AnnotationsTypes.ContinuousStructures.ContinuousStructure import ContinuousStructureList, ContinuousStructureNotList
-
-logger = logging.getLogger(__name__)
 
 class ProcessAnnotations:
     """
