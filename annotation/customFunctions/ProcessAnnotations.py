@@ -1,5 +1,4 @@
 import os
-import traceback
 from datetime import timedelta
 from django.core.files.storage import FileSystemStorage
 from api import settings
