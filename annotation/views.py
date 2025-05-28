@@ -1,14 +1,11 @@
 import logging
 import os
-
 from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 from django.http import FileResponse
 from django.core.cache import cache
-
 from annotation.customFunctions.ProcessAnnotations import ProcessAnnotations
 from annotation.customFunctions.Utilities.Constants.SupportedRequestsTypes import \
     RequestContentType
@@ -17,8 +14,6 @@ from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_P
 from annotation.customFunctions.Utilities.FileManager import FileManager
 from annotation.customFunctions.Utilities.Filters import Filters
 from annotation.customFunctions.Utilities.ParserRML import ParserRML
-import traceback
-
 from annotation.customFunctions.Utilities.Validation.FileValidation.EPPGValidation import EPPGValidation
 from annotation.customFunctions.Utilities.Validation.FileValidation.RMLValidation import RMLValidation
 from annotation.customFunctions.Utilities.Validation.FilterValidation import FilterValidation
