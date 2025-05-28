@@ -1,14 +1,25 @@
 from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeFunctions
 
 class Event:
+    """
+    This class stores all information about node <Event>.
+    """
     def __init__(self, event_info, rml_offset_time):
+        """
+        Initializes an Event instance using raw event metadata and an RML offset.
+        - Generates an event name (annotation appendix).
+        - Computes synchronized onset and end times using the RML offset and event duration.
+        """
         self.__create_event_name(event_info)
         self.__non_synchronised_onset_time = event_info["@Start"]
         self.__synchronised_onset_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.__non_synchronised_onset_time, rml_offset_time)
         self.__end_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.__synchronised_onset_time, event_info["@Duration"])
 
-    # Create the comment name structure
     def __create_event_name(self, event):
+        """
+        Generates a descriptive event name using '@Family', '@Type', and optionally '@EdfSignal' and other custom parameters.
+        """
+
         self.__name = event['@Family'] + ": " + event['@Type']
         if "@EdfSignal" in event:
             self.__name = self.__name + " (" + event['@EdfSignal'] + ")"
