@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import FileResponse
 from django.core.cache import cache
-from annotation.customFunctions.ProcessAnnotations import ProcessAnnotations
+from annotation.customFunctions.AnnotationManager import AnnotationManager
 from annotation.customFunctions.Utilities.Constants.SupportedRequestsTypes import \
     RequestContentType
 from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_PARSED_RML, \
@@ -113,7 +113,7 @@ class ProcessUserFiltersView(APIView):
 
             # Step 2: Save required filters to the cache
             FileManager.save_entity_to_the_cache(request, CACHE_KEY_REQUIRED_FILTERS , required_filters)
-
+            logger.error(required_filters)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ValidationError as ve:
             return Response({
@@ -150,7 +150,7 @@ class UploadEPPGFileView(APIView):
             uploaded_file = EPPGValidation(request).validate()
 
             # Step 2: Persist the file across requests
-            EPPG_path = FileManager.process_persistence_file_saving_ACROSS_REQUESTS(uploaded_file)
+            EPPG_path = FileManager.process_persistent_file_saving_ACROSS_REQUESTS(uploaded_file)
 
             # Step 3: Save the path into the cache
             FileManager.save_entity_to_the_cache(request, CACHE_KEY_EPPG_PATH, EPPG_path)
@@ -197,7 +197,7 @@ class AnnotateView(APIView):
             filters = cache.get(request.session[CACHE_KEY_REQUIRED_FILTERS])
 
             # Annotate the file
-            annotation_manager = ProcessAnnotations(RML_dict, EPPG_path, filters)
+            annotation_manager = AnnotationManager(RML_dict, EPPG_path, filters)
             output_file_path = annotation_manager.add_annotations()
 
             # Respond with the annotated output file

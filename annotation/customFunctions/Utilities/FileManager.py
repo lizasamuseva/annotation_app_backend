@@ -28,7 +28,7 @@ class FileManager:
             raise e
 
     @staticmethod
-    def process_persistence_file_saving_ACROSS_REQUESTS(uploaded_file):
+    def process_persistent_file_saving_ACROSS_REQUESTS(uploaded_file):
         """
         Stores the uploaded file in MEDIA root folder to access file across multiple requests.
         """

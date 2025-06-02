@@ -26,16 +26,13 @@ class EventRecordsList:
         self.filters = events_filters
 
         # Skip all unwanted events and initialize the working one
-        if self.skipEventsBeforeStartOfEPPG(ePPG_offset_time):
-            if self.skipFilterOrientedEvents():
+        if self.skip_events_before_start_of_ePPG(ePPG_offset_time):
+            if self.skip_filter_oriented_events():
                 # Initialize the new event to proceed further
                 self.current_event = Event(self.events_records[self.current_event_sequence_number],self.rml_offset_time)
                 self.array_START_events = []
                 # Find the further events
                 self.find_events_with_the_same_time_start()
-
-    def is_waiting_dictionary_with_end_event_times_empty(self):
-        return not self.waiting_dictionary_with_end_event_times
 
     # def increase_events_and_check_the_end(self):
     #     self.current_event_sequence_number += 1
@@ -47,7 +44,7 @@ class EventRecordsList:
     # def create_new_event(self):
     #     self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
 
-    def skipEventsBeforeStartOfEPPG(self, ePPG_offset_time):
+    def skip_events_before_start_of_ePPG(self, ePPG_offset_time):
         """
         Skips events that started before the ePPG offset time.
         """
@@ -60,10 +57,11 @@ class EventRecordsList:
         # self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
         return True
 
-    def skipFilterOrientedEvents(self):
+    def skip_filter_oriented_events(self):
         """
         Skips events that do not match the provided filter criteria.
         """
+
         family = self.events_records[self.current_event_sequence_number]["@Family"]
         type = self.events_records[self.current_event_sequence_number]["@Type"]
         while (family not in self.filters) or (type not in self.filters.get(family, [])):
@@ -71,6 +69,7 @@ class EventRecordsList:
             if self.length_events_records == self.current_event_sequence_number:
                 self.no_events_left_to_observe_from_file = True
                 return False
+
             family = self.events_records[self.current_event_sequence_number]["@Family"]
             type = self.events_records[self.current_event_sequence_number]["@Type"]
         # self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
@@ -89,7 +88,7 @@ class EventRecordsList:
         self.current_event_sequence_number += 1
         while (
             self.length_events_records > self.current_event_sequence_number and
-            self.events_records[self.current_event_sequence_number]["@Start"] == self.current_event.getNonSynchronisedOnsetTime()
+            self.events_records[self.current_event_sequence_number]["@Start"] == self.current_event.non_synchronised_onset_time
         ):
 
             # Skip if the event wasn't requested in the filters
@@ -114,14 +113,14 @@ class EventRecordsList:
         """
         Fills the array_START_events with the start annotations' names.
         """
-        self.array_START_events.append("Start " + self.current_event.getName())
+        self.array_START_events.append("Start " + self.current_event.name)
 
     def update_end_events_waiting_dictionary(self):
         """
         Fills the waiting dictionary with pair {event_end_time : event_name_END}.
         """
-        end_time = self.current_event.getEndTime()
-        end_name = "End " + self.current_event.getName()
+        end_time = self.current_event.end_time
+        end_name = "End " + self.current_event.name
 
         existing = self.waiting_dictionary_with_end_event_times.get(end_time)
 
@@ -183,7 +182,7 @@ class EventRecordsList:
             if self.length_events_records > self.current_event_sequence_number:
                 self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
                 # Skip the non-requested events
-                if self.skipFilterOrientedEvents():
+                if self.skip_filter_oriented_events():
                     self.find_events_with_the_same_time_start()
             else:
                 self.no_events_left_to_observe_from_file = True
@@ -195,7 +194,7 @@ class EventRecordsList:
         Checks whether the Events did not run out of during the previous write_START_events_into_comment_line.
         Checks whether the line_time_in_seconds from the ePPG is the same as the synchronized time of the START Events.
         """
-        if not self.no_events_left_to_observe_from_file and self.current_event.getSynchronisedOnsetTime() == line_time_in_seconds:
+        if not self.no_events_left_to_observe_from_file and self.current_event.synchronised_onset_time == line_time_in_seconds:
             return True
         return False
 

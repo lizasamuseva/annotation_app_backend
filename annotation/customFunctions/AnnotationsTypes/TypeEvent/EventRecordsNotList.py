@@ -12,13 +12,13 @@ class EventRecordsNotList:
     """
     def __init__(self, event_root, rml_offset_time, ePPG_offset_time):
         self.event = Event(event_root, rml_offset_time)
-        self.isEventSkipped = False
-        self.isOnsetTimeRecorded = False
-        self.isEndTimeRecorded = False
+        self.is_event_skipped = False
+        self.is_onset_time_recorded = False
+        self.is_end_time_recorded = False
 
         # Skip event if it's before the ePPG start or of type "User"
-        if float(self.event.getSynchronisedOnsetTime()) < ePPG_offset_time or event_root["@Family"] == "User":
-            self.isEventSkipped = True
+        if float(self.event.synchronised_onset_time) < ePPG_offset_time or event_root["@Family"] == "User":
+            self.is_event_skipped = True
 
 
     def edit_comment(self, string_comment, mode):
@@ -26,7 +26,7 @@ class EventRecordsNotList:
         Appends the annotation (Start or End) to the current ePPG line.
         Returns the line from ePPG with appended annotation.
         """
-        string_comment = f'{string_comment.split("\n")[0]}\t#* {mode} {self.event.getName()}\n'
+        string_comment = f'{string_comment.split("\n")[0]}\t#* {mode} {self.event.name}\n'
         return string_comment
 
     def write_into_comments(self, line_time_in_seconds, string_comment):
@@ -34,9 +34,9 @@ class EventRecordsNotList:
         Conditionally appends the annotation to the comment line based on timing and state.
         Returns whether raw or annotated string.
         """
-        if not self.isEventSkipped:
-            if not self.isOnsetTimeRecorded and line_time_in_seconds == self.event.getSynchronisedOnsetTime():
+        if not self.is_event_skipped:
+            if not self.is_onset_time_recorded and line_time_in_seconds == self.event.synchronised_onset_time:
                 return self.edit_comment(string_comment, "Start")
-            elif not self.isEndTimeRecorded and line_time_in_seconds == self.event.getEndTime():
+            elif not self.is_end_time_recorded and line_time_in_seconds == self.event.end_time:
                 return self.edit_comment(string_comment, "End")
         return string_comment

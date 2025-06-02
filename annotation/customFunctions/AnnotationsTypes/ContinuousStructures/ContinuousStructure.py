@@ -31,7 +31,7 @@ class ContinuousStructure(ABC):
         Adds annotation to the line if RML event time matches the ePPG timestamp.
 
         Args:
-            line_time_in_seconds (float): Time from the ePPG line.
+            line_time_in_seconds (str): Time from the ePPG line.
             string_comment (str): Existing comment string to modify.
             element_group (str): Group label (e.g., 'SleepStages' or 'BodyPositions') to annotate.
             rml_offset_time (float): Time offset for aligning RML with ePPG.

@@ -9,7 +9,7 @@ from .Utilities.ParserRML import ParserRML
 from .AnnotationsTypes.TypeEvent.EventRecordsList import EventRecordsList
 from .AnnotationsTypes.ContinuousStructures.ContinuousStructure import ContinuousStructureList, ContinuousStructureNotList
 
-class ProcessAnnotations:
+class AnnotationManager:
     """
     Handles annotation of ePPG recordings using synchronized PSG (RML) data.
     """
@@ -36,13 +36,17 @@ class ProcessAnnotations:
         self.body_position_structure = None
 
 
-    def calculate_time_offset(self, rml_datetime_recording, date_time_line):
+    def calculate_time_offset(self, date_time_line):
         """
         Calculates and sets the time offset between the RML and ePPG recordings.
 
-        If the RML started after the ePPG, adjusts the RML event times.
-        If the RML started before the ePPG, adjusts the ePPG line times.
+        If the RML started after the ePPG, adjusts the RML event times (rml_offset).
+        If the RML started before the ePPG, adjusts the ePPG line times(eppg_offset.
         """
+
+        rml_datetime_recording = DateTimeFunctions.convert_datetime_from_rml(
+            ParserRML.get_nested_root_element(self.RML_dict, RECORD_TIME_ROOT_PATH)
+        )
 
         ePPG_datetime_recording = DateTimeFunctions.convert_serial_number_to_date(float(date_time_line.split("=")[1].split("\n")[0]))
         time_offset = DateTimeFunctions.compare_datetime_from_rml_and_ePPG(rml_datetime_recording, ePPG_datetime_recording)
@@ -102,14 +106,11 @@ class ProcessAnnotations:
         if not os.path.exists(self.ePPG_path):
             raise FileNotFoundError
 
-        rml_datetime_recording = DateTimeFunctions.convert_datetime_from_rml(
-            ParserRML.get_nested_root_element(self.RML_dict, RECORD_TIME_ROOT_PATH)
-        )
         fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT))
 
         with open(self.ePPG_path, 'r') as f:
             lines = f.readlines()
-            self.calculate_time_offset(rml_datetime_recording, lines[0])
+            self.calculate_time_offset(lines[0])
             self.structures_initialization()
 
             new_file_path = os.path.join(fs.location, 'annotated_file.txt')

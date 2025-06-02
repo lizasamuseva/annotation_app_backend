@@ -4,7 +4,7 @@ import xmltodict
 import xml.etree.ElementTree as ET
 
 from annotation.customFunctions.Utilities.Constants.constants import EVENTS_ROOT_PATH, SLEEP_STAGES_ROOT_PATH, BODY_POSITIONS_ROOT_PATH
-from annotation.customFunctions.Utilities.customExceptions import MissingRMLKeyError, InvalidRMLStructure
+from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure
 
 
 class ParserRML:
