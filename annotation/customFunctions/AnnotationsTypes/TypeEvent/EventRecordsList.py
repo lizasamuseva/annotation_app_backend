@@ -1,5 +1,10 @@
 from .Event import Event
+from zope.interface import implementer
 
+from .EventsRecordsStructure import EventsRecordsStructure
+
+
+@implementer(EventsRecordsStructure)
 class EventRecordsList:
     """
     Represents a list of <Event> nodes with metadata and filtering.
