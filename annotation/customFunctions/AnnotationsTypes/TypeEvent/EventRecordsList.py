@@ -29,20 +29,10 @@ class EventRecordsList:
         if self.skip_events_before_start_of_ePPG(ePPG_offset_time):
             if self.skip_filter_oriented_events():
                 # Initialize the new event to proceed further
-                self.current_event = Event(self.events_records[self.current_event_sequence_number],self.rml_offset_time)
+                # self.current_event = Event(self.events_records[self.current_event_sequence_number],self.rml_offset_time)
                 self.array_START_events = []
                 # Find the further events
                 self.find_events_with_the_same_time_start()
-
-    # def increase_events_and_check_the_end(self):
-    #     self.current_event_sequence_number += 1
-    #     if self.length_events_records == self.current_event_sequence_number:
-    #         self.no_events_left_to_observe_from_file = True
-    #         return False
-    #     return True
-    #
-    # def create_new_event(self):
-    #     self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
 
     def skip_events_before_start_of_ePPG(self, ePPG_offset_time):
         """
@@ -53,8 +43,8 @@ class EventRecordsList:
             if self.length_events_records == self.current_event_sequence_number:
                 self.no_events_left_to_observe_from_file = True
                 return False
-        # # Initialize the new event to proceed further
-        # self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
+        # Initialize the new event to proceed further
+        self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
         return True
 
     def skip_filter_oriented_events(self):
@@ -72,7 +62,8 @@ class EventRecordsList:
 
             family = self.events_records[self.current_event_sequence_number]["@Family"]
             type = self.events_records[self.current_event_sequence_number]["@Type"]
-        # self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
+        # Initialize the new event to proceed further
+        self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
         return True
 
     def find_events_with_the_same_time_start(self):
