@@ -1,9 +1,12 @@
 import logging
 import os
 from rest_framework.exceptions import ValidationError
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 from django.http import FileResponse
 from django.core.cache import cache
 from annotation.customFunctions.AnnotationManager import AnnotationManager
@@ -19,8 +22,11 @@ from annotation.customFunctions.Utilities.Validation.FileValidation.RMLValidatio
 from annotation.customFunctions.Utilities.Validation.FilterValidation import FilterValidation
 from annotation.customFunctions.Utilities.Validation.RequestValidation import RequestValidation
 from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure, EppgFileInvalid
+from annotation.serializers import FiltersResponseSerializer
 
 logger = logging.getLogger(__name__)
+
+
 
 class GetFiltersView(APIView):
     """
@@ -43,7 +49,35 @@ class GetFiltersView(APIView):
         - 500 INTERNAL_SERVER_ERROR:
             An unexpected server error occurred.
     """
+    parser_classes = [MultiPartParser]
 
+    @swagger_auto_schema(
+        operation_description="""
+        Upload an RML (PSG) file using the form key `RML_src`.
+
+        📎 [Click here to download a sample RML file](http://localhost:8000/static/sample.rml)
+
+        The API parses the file and returns available filters in JSON format.
+        """,
+        manual_parameters=[
+            openapi.Parameter(
+                name='RML_src',
+                in_=openapi.IN_FORM,
+                type=openapi.TYPE_FILE,
+                required=True,
+                description='RML (PSG) file to upload'
+            )
+        ],
+        responses={
+            200: openapi.Response(
+                description="Returns extracted filters",
+                schema=FiltersResponseSerializer()
+            ),
+            400: "Bad Request - Validation error",
+            422: "Unprocessable Entity - Invalid RML structure",
+            500: "Internal Server Error",
+        }
+    )
     def post(self, request):
         path_to_RML = None
         # This will ensure a session is created
@@ -106,6 +140,62 @@ class ProcessUserFiltersView(APIView):
         FilterValidation.are_filters_allowed(request, required_filters)
         return required_filters
 
+    @swagger_auto_schema(
+        operation_description="Validates and stores user-selected filters. The input JSON should contain the filters under the `filters` key.",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'filters': openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'Neuro': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING),
+                            example=["Arousal"]
+                        ),
+                        'SpO2': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING),
+                            example=["RelativeDesaturation"]
+                        ),
+                        'Nasal': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING),
+                            example=["Snore"]
+                        ),
+                        'Cardiac': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING),
+                            example=["Tachycardia"]
+                        ),
+                        'SleepStages': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING),
+                            example=["Wake", "NonREM2", "NonREM1"]
+                        ),
+                        'BodyPositions': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            items=openapi.Items(type=openapi.TYPE_STRING),
+                            example=["Supine"]
+                        ),
+                    },
+                    example={
+                        "Neuro": ["Arousal"],
+                        "SpO2": ["RelativeDesaturation"],
+                        "Nasal": ["Snore"],
+                        "Cardiac": ["Tachycardia"],
+                        "SleepStages": ["Wake", "NonREM2", "NonREM1"],
+                        "BodyPositions": ["Supine"]
+                    }
+                )
+            }
+        ),
+        responses={
+            204: 'Filters validated and stored successfully',
+            400: 'Bad Request - Validation error',
+            500: 'Internal Server Error'
+        }
+    )
     def post(self, request):
         try:
             # Step 1: Validate the request json and get the filters required by client
@@ -143,6 +233,29 @@ class UploadEPPGFileView(APIView):
         - 500 INTERNAL_SERVER_ERROR:
             An unexpected server error occurred.
     """
+    parser_classes = [MultiPartParser]
+
+    @swagger_auto_schema(
+        operation_description="""
+        Upload an ePPG file under the form key `EPPG_src`. 
+        📎 [Click here to download a sample ePPG sample file](http://localhost:8000/static/sample.txt)
+        API validates and caches the file.""",
+        manual_parameters=[
+            openapi.Parameter(
+                name='EPPG_src',
+                in_=openapi.IN_FORM,
+                type=openapi.TYPE_FILE,
+                required=True,
+                description='The ePPG file to upload'
+            )
+        ],
+        responses={
+            204: 'File uploaded and cached successfully',
+            400: 'Bad Request - Validation error',
+            422: 'Unprocessable Entity - Invalid or missing header',
+            500: 'Internal Server Error',
+        }
+    )
     def post(self, request):
         try:
             # Step 1: Validation
@@ -186,6 +299,28 @@ class AnnotateView(APIView):
         - 500 INTERNAL_SERVER_ERROR:
             Output file was not generated or an unexpected error occurred.
     """
+    @swagger_auto_schema(
+        operation_description="Annotates the uploaded ePPG file with PSG data and selected filters, then returns the annotated file for download.",
+        responses={
+            200: openapi.Response(
+                description="Returns the annotated ePPG file for download.",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    format='binary',
+                    description='Annotated ePPG file'
+                )
+            ),
+            409: openapi.Response(
+                description="The ePPG file was not found (possibly expired cache)."
+            ),
+            422: openapi.Response(
+                description="Time mismatch between PSG and ePPG files exceeds allowed range (8 hours)."
+            ),
+            500: openapi.Response(
+                description="An unexpected server error occurred or output file was not generated."
+            ),
+        }
+    )
     def get(self, request):
         EPPG_path = None
         output_file_path = None
