@@ -21,8 +21,8 @@ class EventRecordsNotList:
         self.is_onset_time_recorded = False
         self.is_end_time_recorded = False
 
-        # Skip event if it's before the ePPG start or of type "User"
-        if float(self.current_event.synchronised_onset_time) < ePPG_offset_time or event_root["@Family"] == "User":
+        # Skip event if it's before the ePPG start
+        if float(self.current_event.synchronised_onset_time) < ePPG_offset_time:
             self.is_event_skipped = True
 
 

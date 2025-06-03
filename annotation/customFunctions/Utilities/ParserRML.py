@@ -5,7 +5,8 @@ import xml.etree.ElementTree as ET
 
 from annotation.customFunctions.Utilities.Constants.constants import EVENTS_ROOT_PATH, SLEEP_STAGES_ROOT_PATH, BODY_POSITIONS_ROOT_PATH
 from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure
-
+import logging
+logger = logging.getLogger(__name__)
 
 class ParserRML:
     """
@@ -56,6 +57,7 @@ class ParserRML:
         try:
             for key in path:
                 dictionary = dictionary[key]
+                logger.error(key)
 
         except KeyError as key:
             raise MissingRMLKeyError(key)

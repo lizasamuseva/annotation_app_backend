@@ -33,8 +33,7 @@ class EventRecordsList:
         # Skip all unwanted events and initialize the working one
         if self.skip_events_before_start_of_ePPG(ePPG_offset_time):
             if self.skip_filter_oriented_events():
-                # Initialize the new event to proceed further
-                # self.current_event = Event(self.events_records[self.current_event_sequence_number],self.rml_offset_time)
+
                 self.array_START_events = []
                 # Find the further events
                 self.find_events_with_the_same_time_start()
@@ -80,7 +79,7 @@ class EventRecordsList:
         self.update_START_events_array()
         self.update_end_events_waiting_dictionary()
 
-        # Find the events, which have the same START time as the already filled one
+        # Find the events that have the same START time as the already filled one
         self.current_event_sequence_number += 1
         while (
             self.length_events_records > self.current_event_sequence_number and

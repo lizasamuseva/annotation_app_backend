@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-qgqhao!e+nygorf3@yspsvumme&ja9lnm87#2%8k5zb6n^a2d!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["testserver"]
 
 
 # Application definition
@@ -135,6 +135,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Set the root of the filesystem
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -147,4 +148,19 @@ CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = False
 CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+
+#Logger configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
 

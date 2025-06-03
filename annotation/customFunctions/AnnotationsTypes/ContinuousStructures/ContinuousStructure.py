@@ -78,7 +78,7 @@ class ContinuousStructureList(ContinuousStructure):
                 while (self.current_number_of_element < self.root_length and
                        self.root[self.current_number_of_element][self.element_property_name] not in self.filters):
                     self.current_number_of_element += 1
-        # Return whether not edited line or annotated
+        # Return whether not edited or annotated line
         return string_comment
 
 

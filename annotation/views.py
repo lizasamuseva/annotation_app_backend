@@ -72,7 +72,7 @@ class GetFiltersView(APIView):
         except (MissingRMLKeyError, InvalidRMLStructure) as invalidError:
             return Response({'error': str(invalidError)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         except Exception as e:
-            logger.error(f"Unexpected error in GetFiltersView.")
+            logger.error(f"Unexpected error in GetFiltersView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -113,7 +113,6 @@ class ProcessUserFiltersView(APIView):
 
             # Step 2: Save required filters to the cache
             FileManager.save_entity_to_the_cache(request, CACHE_KEY_REQUIRED_FILTERS , required_filters)
-            logger.error(required_filters)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ValidationError as ve:
             return Response({
@@ -220,9 +219,9 @@ class AnnotateView(APIView):
                 'error': error
             }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         except Exception as e:
-            logger.error(f"Unexpected error in AnnotateView.")
+            logger.error(f"Unexpected error in AnnotateView.", exc_info=True)
             return Response({
-                'error': 'An unexpected error occurred. Please contact support.'
+                'error': 'An unexpected error occurred. Please contact support.',
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         finally:
             if EPPG_path:
