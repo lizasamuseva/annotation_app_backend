@@ -129,23 +129,6 @@ class EventRecordsList:
             # Convert single element to list and append the new name
             self.waiting_dictionary_with_end_event_times[end_time] = [existing, end_name]
 
-        # # 1. Whether such time is already in the dictionary with one event associated => associate the list of events with that time
-        # if (end_time in self.waiting_dictionary_with_end_event_times.keys() and
-        #         not isinstance(self.waiting_dictionary_with_end_event_times[end_time], list)):
-        #
-        #     self.waiting_dictionary_with_end_event_times[end_time] = self.make_list_instance(self.waiting_dictionary_with_end_event_times[end_time])
-        #     self.waiting_dictionary_with_end_event_times[end_time].append(end_name)
-        #
-        # # 2. Whether such time is already in the dictionary with list of events associated => add this event into the list
-        # elif (end_time in self.waiting_dictionary_with_end_event_times.keys() and
-        #       isinstance(self.waiting_dictionary_with_end_event_times[end_time], list)):
-        #
-        #     self.waiting_dictionary_with_end_event_times[end_time].append(end_name)
-        #
-        # # 3. Whether there is no such pair => add this pair
-        # else:
-        #     self.waiting_dictionary_with_end_event_times.update({end_time: end_name})
-
     def make_list_instance(self, element):
         """
         Transforms one element into the list with that element.
