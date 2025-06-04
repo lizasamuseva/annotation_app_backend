@@ -57,7 +57,6 @@ class ParserRML:
         try:
             for key in path:
                 dictionary = dictionary[key]
-                logger.error(key)
 
         except KeyError as key:
             raise MissingRMLKeyError(key)

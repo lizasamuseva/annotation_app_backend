@@ -1,8 +1,10 @@
+import logging
+
 from .Event import Event
 from zope.interface import implementer
 
 from .EventsRecordsStructure import EventsRecordsStructure
-
+logger = logging.getLogger(__name__)
 
 @implementer(EventsRecordsStructure)
 class EventRecordsList:
@@ -89,7 +91,9 @@ class EventRecordsList:
             # Skip if the event wasn't requested in the filters
             family = self.events_records[self.current_event_sequence_number]["@Family"]
             type = self.events_records[self.current_event_sequence_number]["@Type"]
-            if family not in self.filters and type not in self.filters[family]:
+
+            if (family not in self.filters) and (type not in self.filters.get(family, {})):
+                # logger.error(self.filters[family])
                 self.current_event_sequence_number += 1
                 continue
             # When the event was found, create a new Event

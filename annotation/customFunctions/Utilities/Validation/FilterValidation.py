@@ -2,6 +2,9 @@ from rest_framework.exceptions import ValidationError
 from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_ALL_POSSIBLE_FILTERS
 from django.core.cache import cache
 
+from annotation.customFunctions.Utilities.FileManager import FileManager
+
+
 class FilterValidation:
     """
     Validation of the client's filters request.
@@ -29,7 +32,7 @@ class FilterValidation:
             Raises:
                 ValidationError: if filter or its category is unrecognizable.
         """
-        all_filters = cache.get(request.session[CACHE_KEY_ALL_POSSIBLE_FILTERS])
+        all_filters = FileManager.get_entity_from_cache(request, CACHE_KEY_ALL_POSSIBLE_FILTERS)
 
         if not all_filters:
             raise ValidationError("Filter cache is empty or expired.")

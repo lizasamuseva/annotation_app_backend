@@ -24,3 +24,8 @@ class InvalidRMLStructure(ExpatError):
     """Raised when the structure of the RML file is invalid or cannot be parsed."""
     def __init__(self):
         super().__init__('RML file is invalid')
+
+class SessionExpired(Exception):
+    """Raised when the entity can't be found within session."""
+    def __init__(self):
+        super().__init__('Please start again, because last changes were too long.')

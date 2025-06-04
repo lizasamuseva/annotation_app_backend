@@ -2,6 +2,9 @@ from django.urls import path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.conf.urls.static import static
+
+from api import settings
 from .views import GetFiltersView, ProcessUserFiltersView, UploadEPPGFileView, AnnotateView
 
 
@@ -23,3 +26,5 @@ urlpatterns = [
     path('annotate/', AnnotateView.as_view(), name='annotate'),
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

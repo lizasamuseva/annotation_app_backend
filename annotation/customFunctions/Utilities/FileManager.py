@@ -5,6 +5,7 @@ import uuid
 from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
 
+from annotation.customFunctions.Utilities.CustomExceptions import SessionExpired
 from api import settings
 
 class FileManager:
@@ -55,17 +56,31 @@ class FileManager:
         """
         Caches annotation-related data and links to the user session for later retrieval.
         """
+        # Save cache key if it is first initialization
+        if not request.session.session_key:
+            request.session.save()
 
-        # Create cache key
-        cache_key = f"{cache_key_description}:{uuid.uuid4()}"
+        # Set the Cache key name
+        generated_cache_key = f"{cache_key_description}:{request.session.session_key}"
+        # Set entity in the cache
+        cache.set(generated_cache_key, entity_to_save, timeout=3600)
+        # Link Session nand Cache key
+        request.session[cache_key_description] = generated_cache_key
 
-        # Connect the cache key with entity
-        cache.set(cache_key, entity_to_save, timeout=3600)
+    @staticmethod
+    def get_entity_from_cache(request, cache_key_description):
+        """
+        Returns the entity connected to the session-cache key.
 
-        # Save the record within one session:
-        # 1. To allow access across multiple requests.
-        # 2. To ensure each user has isolated data.
-        request.session[f'{cache_key_description}'] = cache_key
+        Raises:
+            SessionExpired: if the session key is expired.
+        """
+        cache_key = request.session.get(cache_key_description)
+        if cache_key:
+            entity = cache.get(cache_key)
+            return entity
+
+        raise SessionExpired
 
     @staticmethod
     def cleanup_file(file_path):

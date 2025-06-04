@@ -4,6 +4,7 @@ from django.core.files.storage import FileSystemStorage
 from api import settings
 from .AnnotationsTypes.TypeEvent.EventRecordsNotList import EventRecordsNotList
 from .Utilities.Constants.constants import RECORD_TIME_ROOT_PATH
+from .Utilities.CustomExceptions import SessionExpired
 from .Utilities.DateTimeFunctions import DateTimeFunctions
 from .Utilities.ParserRML import ParserRML
 from .AnnotationsTypes.TypeEvent.EventRecordsList import EventRecordsList
@@ -100,11 +101,11 @@ class AnnotationManager:
         Returns:
             str: Path to the newly created annotated file.
         Raises:
-            FileNotFoundError: If the ePPG file path does not exist.
+            SessionExpired: If the ePPG file path does not exist/wasn't uploaded/expired.
         """
         # Check if the file exists before proceeding
         if not os.path.exists(self.ePPG_path):
-            raise FileNotFoundError
+            raise SessionExpired
 
         fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT))
 

@@ -8,7 +8,6 @@ from drf_yasg import openapi
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.http import FileResponse
-from django.core.cache import cache
 from annotation.customFunctions.AnnotationManager import AnnotationManager
 from annotation.customFunctions.Utilities.Constants.SupportedRequestsTypes import \
     RequestContentType
@@ -21,7 +20,8 @@ from annotation.customFunctions.Utilities.Validation.FileValidation.EPPGValidati
 from annotation.customFunctions.Utilities.Validation.FileValidation.RMLValidation import RMLValidation
 from annotation.customFunctions.Utilities.Validation.FilterValidation import FilterValidation
 from annotation.customFunctions.Utilities.Validation.RequestValidation import RequestValidation
-from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure, EppgFileInvalid
+from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure, \
+    EppgFileInvalid, SessionExpired
 from annotation.serializers import FiltersResponseSerializer
 
 logger = logging.getLogger(__name__)
@@ -50,12 +50,12 @@ class GetFiltersView(APIView):
             An unexpected server error occurred.
     """
     parser_classes = [MultiPartParser]
-
+    # LOCALHOST: https://localhost:8000/static/sample.rml
     @swagger_auto_schema(
         operation_description="""
         Upload an RML (PSG) file using the form key `RML_src`.
 
-        📎 [Click here to download a sample RML file](http://localhost:8000/static/sample.rml)
+        📎 [Click here to download a sample RML file](https://psg.e4.iomt.sk/annotate-eppg/static/sample.rml)
 
         The API parses the file and returns available filters in JSON format.
         """,
@@ -205,11 +205,12 @@ class ProcessUserFiltersView(APIView):
             FileManager.save_entity_to_the_cache(request, CACHE_KEY_REQUIRED_FILTERS , required_filters)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except ValidationError as ve:
+            logger.error(f"Unexpected error in ProcessUserFiltersView.", exc_info=True)
             return Response({
                 'error': str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)
             }, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            logger.error(f"Unexpected error in ProcessUserFiltersView.")
+            logger.error(f"Unexpected error in ProcessUserFiltersView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -235,10 +236,11 @@ class UploadEPPGFileView(APIView):
     """
     parser_classes = [MultiPartParser]
 
+    #Localhost: http://localhost:8000/static/sample_eppg.txt
     @swagger_auto_schema(
         operation_description="""
         Upload an ePPG file under the form key `EPPG_src`. 
-        📎 [Click here to download a sample ePPG sample file](http://localhost:8000/static/sample.txt)
+        📎 [Click here to download a sample ePPG sample file](https://psg.e4.iomt.sk/annotate-eppg/static/sample_eppg.txt)
         API validates and caches the file.""",
         manual_parameters=[
             openapi.Parameter(
@@ -271,11 +273,11 @@ class UploadEPPGFileView(APIView):
         # Catch any validation error
         except ValidationError as ve:
             return Response({'error': str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)}, status=status.HTTP_400_BAD_REQUEST)
-        # Catch Error if the EPPG file doesn't contain appropriate header
-        except EppgFileInvalid as ee:
+        # Catch Error if the EPPG file doesn't contain appropriate header/previous request is expired
+        except (EppgFileInvalid, SessionExpired) as ee:
             return Response({'error': str(ee)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         except Exception as e:
-            logger.error(f"Unexpected error in ProcessUserFiltersView.")
+            logger.error(f"Unexpected error in ProcessUserFiltersView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -326,9 +328,11 @@ class AnnotateView(APIView):
         output_file_path = None
         try:
             # Get user oriented information
-            RML_dict = cache.get(request.session[CACHE_KEY_PARSED_RML])
-            EPPG_path = cache.get(request.session[CACHE_KEY_EPPG_PATH])
-            filters = cache.get(request.session[CACHE_KEY_REQUIRED_FILTERS])
+            RML_dict = FileManager.get_entity_from_cache(request, CACHE_KEY_PARSED_RML)
+
+            EPPG_path = FileManager.get_entity_from_cache(request, CACHE_KEY_EPPG_PATH)
+            logger.error(FileManager.get_entity_from_cache(request, CACHE_KEY_REQUIRED_FILTERS))
+            filters = FileManager.get_entity_from_cache(request, CACHE_KEY_REQUIRED_FILTERS)
 
             # Annotate the file
             annotation_manager = AnnotationManager(RML_dict, EPPG_path, filters)
@@ -345,13 +349,13 @@ class AnnotateView(APIView):
                 return Response({
                     'error': 'Something went wrong. Please, try again.'
                 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        except FileNotFoundError:
+        except SessionExpired:
             return Response({
-                'error': "The ePPG file wasn't found. Please, load it again."
+                'error': SessionExpired
             }, status=status.HTTP_409_CONFLICT)
         except EppgFileInvalid as error:
             return Response({
-                'error': error
+                'error': str(error)
             }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         except Exception as e:
             logger.error(f"Unexpected error in AnnotateView.", exc_info=True)
