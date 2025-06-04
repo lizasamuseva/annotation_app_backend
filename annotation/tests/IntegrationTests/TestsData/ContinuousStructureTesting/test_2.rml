@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PatientStudy StudyType="PSG" AcquisitionType="95810 : Attended Polysomnography 4 or more channels" State="New" EncryptionType="6" Anonymous="true" Version="11" xmlns:ce="http://www.respironics.com/CustomEventTypeDefs.xsd" xmlns:ac="http://www.respironics.com/AcquisitionCommentDefs.xsd" xmlns:ao="http://www.respironics.com/AnalysisOptions.xsd" xmlns:rc="http://www.respironics.com/ReportCalcOptions.xsd" xmlns:ef="http://www.respironics.com/EventFilters.xsd" xmlns="http://www.respironics.com/PatientStudy.xsd">
+   <Patient PatientType="Adult">
+      <PatientID>wmUjQ2NqpjTNAvl29oxP5w==</PatientID>
+      <ContactInfo>
+         <FirstName>wmUjQ2NqpjTNAvl29oxP5w==</FirstName>
+         <LastName>wmUjQ2NqpjTNAvl29oxP5w==</LastName>
+         <MiddleName />
+         <Suffix />
+         <Address />
+         <Address2 />
+         <City />
+         <State />
+         <ZipCode />
+         <Phone />
+         <Phone2 />
+         <Fax />
+         <Email />
+      </ContactInfo>
+      <BirthDate>GRU0aBUb8HJMCa7vPIZL9Q==</BirthDate>
+      <Gender>Male</Gender>
+   </Patient>
+   <ChannelConfig>
+      <ConfigName>first</ConfigName>
+      <Channels>
+         <Channel EdfSignal="0" UseForAnalysis="true">
+            <Label>LEOGM2</Label>
+         </Channel>
+         <Channel EdfSignal="1" UseForAnalysis="true">
+            <Label>REOGM1</Label>
+         </Channel>
+         <Channel EdfSignal="2" UseForAnalysis="true">
+            <Label>C3M2</Label>
+         </Channel>
+         <Channel EdfSignal="3" UseForAnalysis="true">
+            <Label>C4M1</Label>
+         </Channel>
+         <Channel EdfSignal="4" UseForAnalysis="true">
+            <Label>O1M2</Label>
+         </Channel>
+         <Channel EdfSignal="5" UseForAnalysis="true">
+            <Label>O2M1</Label>
+         </Channel>
+         <Channel EdfSignal="6" UseForAnalysis="true">
+            <Label>CEMG</Label>
+         </Channel>
+         <Channel EdfSignal="7" UseForAnalysis="true">
+            <Label>ECG1</Label>
+         </Channel>
+         <Channel EdfSignal="8" UseForAnalysis="true">
+            <Label>rr</Label>
+         </Channel>
+         <Channel EdfSignal="9" UseForAnalysis="false">
+            <Label>ECG2</Label>
+         </Channel>
+         <Channel EdfSignal="10" UseForAnalysis="true">
+            <Label>TFlow</Label>
+         </Channel>
+         <Channel EdfSignal="11" UseForAnalysis="true">
+            <Label>CanFlow</Label>
+         </Channel>
+         <Channel EdfSignal="12" UseForAnalysis="true">
+            <Label>THO</Label>
+         </Channel>
+         <Channel EdfSignal="13" UseForAnalysis="true">
+            <Label>ABD</Label>
+         </Channel>
+         <Channel EdfSignal="14" UseForAnalysis="true">
+            <Label>MSnore</Label>
+         </Channel>
+         <Channel EdfSignal="15" UseForAnalysis="true">
+            <Label>Pleth</Label>
+         </Channel>
+         <Channel EdfSignal="16" UseForAnalysis="true">
+            <Label>SpO2</Label>
+         </Channel>
+         <Channel EdfSignal="17" UseForAnalysis="true">
+            <Label>PulseR</Label>
+         </Channel>
+         <Channel EdfSignal="18" UseForAnalysis="true">
+            <Label>LEG1</Label>
+         </Channel>
+         <Channel EdfSignal="19" UseForAnalysis="true">
+            <Label>LEG2</Label>
+         </Channel>
+         <Channel EdfSignal="20" UseForAnalysis="false">
+            <Label>M1M2</Label>
+         </Channel>
+         <Channel EdfSignal="21" UseForAnalysis="true">
+            <Label>Body</Label>
+         </Channel>
+         <Channel EdfSignal="22" UseForAnalysis="false">
+            <Label>P-Check </Label>
+         </Channel>
+         <Channel EdfSignal="23" UseForAnalysis="false">
+            <Label>ECG-HF</Label>
+         </Channel>
+         <Channel EdfSignal="24" UseForAnalysis="true">
+            <Label>imp</Label>
+         </Channel>
+      </Channels>
+   </ChannelConfig>
+   <Acquisition>
+      <AcqNumber>2121</AcqNumber>
+      <Device DeviceType="Alice6LDx">
+         <SerialNumber>100655</SerialNumber>
+      </Device>
+      <Sessions>
+         <Session>
+            <RecordingStart>2024-10-02T19:22:23</RecordingStart>
+            <Duration>28484</Duration>
+            <LightsOff>0</LightsOff>
+            <Segments>
+               <Segment>
+                  <StartTime>2024-10-02T19:22:00</StartTime>
+                  <Duration>28484</Duration>
+               </Segment>
+            </Segments>
+            <VideoSegments>
+               <VideoSegment>
+                  <StartTime>2024-10-02T19:22:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0001.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T19:27:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0002.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T19:32:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0003.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T19:37:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0004.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T19:42:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0005.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T19:47:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0006.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T19:52:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0007.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T19:57:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0008.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:02:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0009.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:07:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0010.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:12:13</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0011.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:25:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0013.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:30:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0014.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:35:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0015.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:40:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0016.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:45:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0017.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:50:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0018.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T20:55:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0019.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:00:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0020.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:05:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0021.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:10:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0022.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:15:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0023.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:20:05</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0024.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:25:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0025.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:30:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0026.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:35:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0027.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:40:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0028.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:45:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0029.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:50:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0030.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T21:55:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0031.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:00:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0032.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:05:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0033.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:10:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0034.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:15:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0035.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:20:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0036.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:25:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0037.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:30:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0038.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:35:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0039.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:40:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0040.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:45:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0041.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:50:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0042.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T22:55:06</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0043.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:04:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0045.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:09:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0046.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:14:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0047.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:19:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0048.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:24:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0049.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:29:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0050.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:34:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0051.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:39:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0052.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:44:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0053.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:49:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0054.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:54:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0055.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-02T23:59:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0056.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:04:11</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0057.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:09:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0058.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:14:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0059.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:19:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0060.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:24:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0061.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:29:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0062.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:34:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0063.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:39:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0064.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:44:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0065.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:49:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0066.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T00:54:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0067.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:02:01</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0069.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:07:01</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0070.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:12:01</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0071.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:17:01</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0072.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:27:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0074.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:32:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0075.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:37:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0076.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:42:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0077.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:47:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0078.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:52:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0079.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T01:57:12</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0080.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:07:14</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0082.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:12:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0083.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:17:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0084.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:22:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0085.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:27:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0086.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:32:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0087.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:37:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0088.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:42:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0089.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:47:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0090.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:52:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0091.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T02:57:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0092.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T03:02:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0093.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T03:07:15</StartTime>
+                  <Duration>300</Duration>
+                  <FileName>0094.asf</FileName>
+               </VideoSegment>
+               <VideoSegment>
+                  <StartTime>2024-10-03T03:12:15</StartTime>
+                  <Duration>292</Duration>
+                  <FileName>0095.asf</FileName>
+               </VideoSegment>
+            </VideoSegments>
+         </Session>
+      </Sessions>
+   </Acquisition>
+   <CustomEventTypeDefs>
+      <ce:CustomEventTypeDef Name="remdens" Type="CustomDuration">
+         <ce:LogicalInfo Family="Neuro" />
+      </ce:CustomEventTypeDef>
+   </CustomEventTypeDefs>
+   <AcquisitionCommentDefs />
+   <ScoringData>
+      <LastModified>2024-10-03T07:01:09</LastModified>
+      <Events>
+         <Event Family="Respiration" Type="Apnea" Start="0" Duration="0" Machine="true" OriginatedOnDevice="true" EdfSignal="6"/>
+      </Events>
+      <GraphoEvents>
+         <Grapho Type="AlphaActivity" Start="28481.9" Dur="0.3" EdfSig="2" />
+      </GraphoEvents>
+      <StagingData StagingDisplay="NeuroAdultAASM">
+         <UserStaging>
+            <NeuroAdultAASMStaging>
+                <Stage Type="NonREM1" Start="0" />
+                <Stage Type="NonREM2" Start="30" />
+            </NeuroAdultAASMStaging>
+         </UserStaging>
+         <MachineStaging>
+            <NeuroAdultAASMStaging>
+               <Stage Type="NonREM1" Start="0" />
+               <Stage Type="NonREM2" Start="30" />
+               <Stage Type="Wake" Start="60" />
+               <Stage Type="NonREM2" Start="180" />
+               <Stage Type="Wake" Start="270" />
+               <Stage Type="NonREM1" Start="300" />
+               <Stage Type="NonREM2" Start="330" />
+               <Stage Type="Wake" Start="360" />
+               <Stage Type="NonREM1" Start="9000" />
+               <Stage Type="NonREM2" Start="9030" />
+               <Stage Type="Wake" Start="9090" />
+               <Stage Type="NonREM2" Start="10320" />
+               <Stage Type="Wake" Start="10890" />
+               <Stage Type="NonREM1" Start="14130" />
+               <Stage Type="NonREM2" Start="14340" />
+               <Stage Type="Wake" Start="15030" />
+               <Stage Type="NonREM1" Start="17670" />
+               <Stage Type="NonREM2" Start="17700" />
+               <Stage Type="NonREM3" Start="20220" />
+               <Stage Type="NonREM2" Start="20250" />
+               <Stage Type="NonREM3" Start="20280" />
+               <Stage Type="NonREM2" Start="20310" />
+               <Stage Type="Wake" Start="20430" />
+               <Stage Type="NonREM1" Start="20460" />
+               <Stage Type="REM" Start="21180" />
+               <Stage Type="Wake" Start="21210" />
+               <Stage Type="NonREM1" Start="21750" />
+               <Stage Type="NonREM2" Start="22050" />
+               <Stage Type="NonREM3" Start="22740" />
+               <Stage Type="NonREM2" Start="22770" />
+               <Stage Type="Wake" Start="22920" />
+               <Stage Type="NonREM1" Start="22950" />
+               <Stage Type="NonREM3" Start="23460" />
+               <Stage Type="NonREM2" Start="23490" />
+               <Stage Type="NonREM3" Start="23520" />
+               <Stage Type="NonREM2" Start="23550" />
+               <Stage Type="NonREM3" Start="23670" />
+               <Stage Type="NonREM2" Start="23700" />
+               <Stage Type="NonREM3" Start="23730" />
+               <Stage Type="NonREM2" Start="23760" />
+               <Stage Type="NonREM3" Start="23820" />
+               <Stage Type="NonREM2" Start="23850" />
+               <Stage Type="NonREM3" Start="23910" />
+               <Stage Type="NonREM2" Start="23940" />
+               <Stage Type="NonREM3" Start="23970" />
+               <Stage Type="NonREM2" Start="24120" />
+               <Stage Type="NonREM3" Start="24150" />
+               <Stage Type="NonREM2" Start="24300" />
+               <Stage Type="NonREM3" Start="24330" />
+               <Stage Type="NonREM2" Start="24480" />
+               <Stage Type="NonREM3" Start="24510" />
+               <Stage Type="NonREM2" Start="24660" />
+               <Stage Type="NonREM3" Start="24690" />
+               <Stage Type="NonREM2" Start="24780" />
+               <Stage Type="NonREM3" Start="24900" />
+               <Stage Type="NonREM2" Start="24930" />
+               <Stage Type="REM" Start="25860" />
+               <Stage Type="NonREM1" Start="26250" />
+               <Stage Type="Wake" Start="26910" />
+               <Stage Type="NotScored" Start="28482" />
+            </NeuroAdultAASMStaging>
+         </MachineStaging>
+      </StagingData>
+   </ScoringData>
+   <AnalysisOptions>
+      <ao:GenericOptions>
+         <ao:EventTypeAssignments>
+            <ao:EventTypeAssignment EventType="CentralApnea" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="ObstructiveApnea" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="MixedApnea" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="Hypopnea" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="PeriodicRespiration" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="Bradycardia" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="Tachycardia" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="LongRR" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="PttDrop" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="RelativeDesaturation" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="Snore" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="RapidEyeMovement" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="SlowEyeMovement" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="Arousal" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="Spindle" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="AlphaActivity" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="LegMovement" ImplementationName="Standard" />
+            <ao:EventTypeAssignment EventType="pHDrop" ImplementationName="Standard" />
+         </ao:EventTypeAssignments>
+         <ao:SleepStagingAssignment ImplementationName="Standard" />
+      </ao:GenericOptions>
+      <ao:ImplementationSpecificOptions>
+         <ao:StandardOptions ImplementationName="Standard" xmlns:standard="http://www.respironics.com/StandardAnalysisOptions.xsd">
+            <standard:SnoreOptions BlindPeriod="2" MinPeriod="3" MaxPeriod="6" Threshold="56" />
+            <standard:HypopneaOptions AmplitudeRatio="70" Hysteresis="70" MinDuration="10" MaxDuration="60" ApneaPriority="true" />
+            <standard:EEGOptions DeltaAmplitudeAdult="75" DeltaAmplitudeInfant="150" />
+            <standard:PHOptions Hysteresis="4.75" MinValue="4" MinDuration="1" />
+            <standard:ECGOptions HrDropThreshold="22.2" HrRiseThreshold="28.6" LongRR="180" />
+            <standard:BradycardiaOptions AdultHrBelow="60" InfantHrBelow="100" />
+            <standard:TachycardiaOptions AdultHrAbove="100" InfantHrAbove="150" />
+            <standard:LegMovementOptions MinDuration="0.5" MaxDuration="10" MergeTime="0.5" StartingAmplitude="8" EndingAmplitude="2" />
+            <standard:AbsDesatOptions SpO2Below="95" />
+            <standard:LightsOnOffOptions AutoDetect="true" Threshold="50" />
+            <standard:MiscOptions PerformFFTAnalysis="true" Alice5AutoGain="false" ExGDcOffsetCorrection="false" ActivityThreshold="100" />
+         </ao:StandardOptions>
+         <ao:SomnolyzerPsgOptions ImplementationName="Somnolyzer PSG" xmlns:somno="http://www.respironics.com/SomnolyzerShared.xsd">
+            <somno:ApneaOptions SensitivityLevel="Balanced" PreferThermalFlowSignal="false" RequiresTwoPercentDesat="true" RequiresFlatFlowSignal="false" />
+            <somno:HypopneaOptions SensitivityLevel="Balanced" RequiredFlowReduction="30" ClassifyHypopneas="false" />
+            <somno:SnoreOptions SensitivityLevel="Balanced" />
+            <somno:GeneralOptions />
+            <somno:LegMovementOptions SensitivityLevel="Balanced" />
+            <somno:NeuroOptions ArousalSensitivityLevel="Balanced" SpindleAndKComplexSensitivityLevel="Balanced" SlowWaveSensitivityLevel="Balanced" />
+         </ao:SomnolyzerPsgOptions>
+      </ao:ImplementationSpecificOptions>
+   </AnalysisOptions>
+   <ReportCalcOptions>
+      <rc:HRDropThreshold>12.5</rc:HRDropThreshold>
+      <rc:SpO2DropThreshold>3</rc:SpO2DropThreshold>
+      <rc:OptimizedPressureThreshold>90</rc:OptimizedPressureThreshold>
+      <rc:AdditionalSpO2Level>0</rc:AdditionalSpO2Level>
+      <rc:AdditionalEtCO2Level>45</rc:AdditionalEtCO2Level>
+      <rc:PLMMaxPeriod>90</rc:PLMMaxPeriod>
+      <rc:PLMMinPeriod>5</rc:PLMMinPeriod>
+      <rc:PLMMinNumber>4</rc:PLMMinNumber>
+      <rc:MaxArousalAssocTime>6</rc:MaxArousalAssocTime>
+      <rc:EventPriorities>
+         <rc:EventArousalAssoc EventArousalAssocType="RespiratoryArousal" />
+         <rc:EventArousalAssoc EventArousalAssocType="LegMovementArousal" />
+         <rc:EventArousalAssoc EventArousalAssocType="SnoreArousal" />
+      </rc:EventPriorities>
+   </ReportCalcOptions>
+   <EventFilters>
+      <ef:CAMinDur>10</ef:CAMinDur>
+      <ef:OAMinDur>10</ef:OAMinDur>
+      <ef:MAMinDur>10</ef:MAMinDur>
+      <ef:HypMinDur>10</ef:HypMinDur>
+      <ef:ConfirmHypsWithDesatsAndOrArousals>true</ef:ConfirmHypsWithDesatsAndOrArousals>
+      <ef:UseAutonomousResponsesForEegArousal>false</ef:UseAutonomousResponsesForEegArousal>
+      <ef:RequiredHrIncreaseForAutonomousResponse>5</ef:RequiredHrIncreaseForAutonomousResponse>
+      <ef:ReraMinDur>10</ef:ReraMinDur>
+      <ef:BradyMinDur>5</ef:BradyMinDur>
+      <ef:TachyMinDur>5</ef:TachyMinDur>
+      <ef:PTTDropMinDecrease>20</ef:PTTDropMinDecrease>
+      <ef:MinRelativeSpO2Drop>3</ef:MinRelativeSpO2Drop>
+      <ef:KeepEventsInWake>true</ef:KeepEventsInWake>
+      <ef:KeepLegMvtEventsInWake>false</ef:KeepLegMvtEventsInWake>
+      <ef:FilterLegMvtEventsNearRespEvents>true</ef:FilterLegMvtEventsNearRespEvents>
+      <ef:LegMvtEventDurationFromRespEvent>0.5</ef:LegMvtEventDurationFromRespEvent>
+      <ef:FilterLegMvtEventsBetweenRespEvents>false</ef:FilterLegMvtEventsBetweenRespEvents>
+      <ef:FilterLegMvtEventsNotPLMs>false</ef:FilterLegMvtEventsNotPLMs>
+      <ef:DisallowOverlappingLegMvtEvents>true</ef:DisallowOverlappingLegMvtEvents>
+   </EventFilters>
+   <TrendChannelMappings>
+      <TrendChannelMapping TrendEdfSignal="0">
+         <EdfSignals>
+            <EdfSignal>0</EdfSignal>
+            <EdfSignal>1</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="1">
+         <EdfSignals>
+            <EdfSignal>0</EdfSignal>
+            <EdfSignal>1</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="2">
+         <EdfSignals>
+            <EdfSignal>2</EdfSignal>
+            <EdfSignal>3</EdfSignal>
+            <EdfSignal>4</EdfSignal>
+            <EdfSignal>5</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="3">
+         <EdfSignals>
+            <EdfSignal>2</EdfSignal>
+            <EdfSignal>3</EdfSignal>
+            <EdfSignal>4</EdfSignal>
+            <EdfSignal>5</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="4">
+         <EdfSignals>
+            <EdfSignal>2</EdfSignal>
+            <EdfSignal>3</EdfSignal>
+            <EdfSignal>4</EdfSignal>
+            <EdfSignal>5</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="5">
+         <EdfSignals>
+            <EdfSignal>6</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="6">
+         <EdfSignals>
+            <EdfSignal>10</EdfSignal>
+            <EdfSignal>11</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="7">
+         <EdfSignals>
+            <EdfSignal>12</EdfSignal>
+            <EdfSignal>13</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="8">
+         <EdfSignals>
+            <EdfSignal>14</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="9">
+         <EdfSignals>
+            <EdfSignal>16</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="10">
+         <EdfSignals>
+            <EdfSignal>19</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="11">
+         <EdfSignals>
+            <EdfSignal>21</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="12">
+         <EdfSignals>
+            <EdfSignal>8</EdfSignal>
+            <EdfSignal>7</EdfSignal>
+            <EdfSignal>9</EdfSignal>
+            <EdfSignal>23</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="13">
+         <EdfSignals>
+            <EdfSignal>8</EdfSignal>
+            <EdfSignal>15</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="14">
+         <EdfSignals>
+            <EdfSignal>16</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="15">
+         <EdfSignals>
+            <EdfSignal>8</EdfSignal>
+            <EdfSignal>7</EdfSignal>
+            <EdfSignal>9</EdfSignal>
+            <EdfSignal>23</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="16">
+         <EdfSignals>
+            <EdfSignal>17</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="17">
+         <EdfSignals>
+            <EdfSignal>2</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="18">
+         <EdfSignals>
+            <EdfSignal>3</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="19">
+         <EdfSignals>
+            <EdfSignal>4</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="20">
+         <EdfSignals>
+            <EdfSignal>5</EdfSignal>
+         </EdfSignals>
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="21">
+         <EdfSignals />
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="22">
+         <EdfSignals />
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="23">
+         <EdfSignals />
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="24">
+         <EdfSignals />
+      </TrendChannelMapping>
+      <TrendChannelMapping TrendEdfSignal="25">
+         <EdfSignals />
+      </TrendChannelMapping>
+   </TrendChannelMappings>
+   <BodyPositionState>
+      <BodyPositionItem Position="Up" Start="0" />
+      <BodyPositionItem Position="Supine" Start="105" />
+   </BodyPositionState>
+</PatientStudy>

@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-qgqhao!e+nygorf3@yspsvumme&ja9lnm87#2%8k5zb6n^a2d!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "testserver", "localhost", "psg.e4.iomt.sk"]
 
 
 # Application definition
@@ -36,7 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'rest_framework',
+    'drf_yasg',
     'django.contrib.staticfiles',
+
 ]
 
 MIDDLEWARE = [
@@ -108,6 +111,8 @@ CACHES = {
         }
     }
 }
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 # Cache time expiration
 CACHE_TTL = 60 * 60
@@ -128,23 +133,77 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC FILES RELATED SETTINGS
+if DEBUG:
+    STATIC_URL = '/static/'
+else:
+    STATIC_URL = '/annotate-eppg/static/'
 
-# Default primary key field type
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'annotation', 'static'),
+]
+
+
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Set the root of the filesystem
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite dev server
-]
-CORS_ALLOW_CREDENTIALS = True
 
 # SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SECURE = False
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+CORS_ALLOW_CREDENTIALS = True
+if DEBUG:
+    MIDDLEWARE.remove('django.middleware.csrf.CsrfViewMiddleware')
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:5173",  # Vite dev server
+    ]
 
+    SESSION_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SECURE = False
+    CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+
+else:
+    # Production
+    SESSION_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SECURE = True
+    CSRF_TRUSTED_ORIGINS = ["https://psg.e4.iomt.sk"]
+    CORS_ALLOWED_ORIGINS = ["https://psg.e4.iomt.sk"]
+
+
+
+
+#Logger configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
+
+# Make Django aware of the root url prefix when behind a proxy
+if not DEBUG:
+    FORCE_SCRIPT_NAME = '/annotate-eppg'
+    USE_X_FORWARDED_HOST = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+SWAGGER_USE_COMPAT_RENDERERS = False
+
+# WILL ALLOW EVERYBODY TO VIEW APPLICATION WITHOUT AUTHORIZATION
+# Should be deleted when the authorization will be implemented
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
