@@ -331,7 +331,6 @@ class AnnotateView(APIView):
             RML_dict = FileManager.get_entity_from_cache(request, CACHE_KEY_PARSED_RML)
 
             EPPG_path = FileManager.get_entity_from_cache(request, CACHE_KEY_EPPG_PATH)
-            logger.error(FileManager.get_entity_from_cache(request, CACHE_KEY_REQUIRED_FILTERS))
             filters = FileManager.get_entity_from_cache(request, CACHE_KEY_REQUIRED_FILTERS)
 
             # Annotate the file

@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qgqhao!e+nygorf3@yspsvumme&ja9lnm87#2%8k5zb6n^a2d!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "testserver", "localhost", "psg.e4.iomt.sk"]
 
@@ -155,24 +155,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-# SESSION_COOKIE_HTTPONLY = True
+
 CORS_ALLOW_CREDENTIALS = True
 if DEBUG:
     MIDDLEWARE.remove('django.middleware.csrf.CsrfViewMiddleware')
     CORS_ALLOWED_ORIGINS = [
         "http://localhost:5173",  # Vite dev server
     ]
-
     SESSION_COOKIE_SAMESITE = 'None'
     SESSION_COOKIE_SECURE = False
     CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
 
 else:
     # Production
+    SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'None'
     SESSION_COOKIE_SECURE = True
-    CSRF_TRUSTED_ORIGINS = ["https://psg.e4.iomt.sk"]
-    CORS_ALLOWED_ORIGINS = ["https://psg.e4.iomt.sk"]
+    # SESSION_COOKIE_SECURE = False
+    CORS_ALLOWED_ORIGINS = [
+        "https://psg.e4.iomt.sk",
+        "http://localhost:5173",
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        "https://psg.e4.iomt.sk",
+        "http://localhost:5173",
+    ]
 
 
 
@@ -181,22 +188,51 @@ else:
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] {levelname} {name} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'annotation.log'),
+            'formatter': 'verbose',
+            'level': 'DEBUG',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'gunicorn.error': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'gunicorn.access': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
     },
     'root': {
-        'handlers': ['console'],
+        'handlers': ['console', 'file'],
         'level': 'DEBUG',
     },
 }
-
-# Make Django aware of the root url prefix when behind a proxy
-if not DEBUG:
-    FORCE_SCRIPT_NAME = '/annotate-eppg'
-    USE_X_FORWARDED_HOST = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SWAGGER_USE_COMPAT_RENDERERS = False
 
@@ -206,4 +242,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+}
+
+SWAGGER_SETTINGS = {
+    'DEFAULT_API_URL': 'https://psg.e4.iomt.sk/annotate-eppg/',
+    'USE_SESSION_AUTH': True,
 }
