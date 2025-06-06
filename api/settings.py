@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qgqhao!e+nygorf3@yspsvumme&ja9lnm87#2%8k5zb6n^a2d!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "testserver", "localhost", "psg.e4.iomt.sk"]
 
@@ -246,5 +246,5 @@ REST_FRAMEWORK = {
 
 SWAGGER_SETTINGS = {
     'DEFAULT_API_URL': 'https://psg.e4.iomt.sk/annotate-eppg/',
-    'USE_SESSION_AUTH': True,
+    'USE_SESSION_AUTH': False,
 }
