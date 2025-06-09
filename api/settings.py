@@ -244,7 +244,8 @@ REST_FRAMEWORK = {
     ],
 }
 
-SWAGGER_SETTINGS = {
-    'DEFAULT_API_URL': 'https://psg.e4.iomt.sk/annotate-eppg/',
-    'USE_SESSION_AUTH': False,
-}
+# Apply these settings in production
+# SWAGGER_SETTINGS = {
+#     # 'DEFAULT_API_URL': 'https://psg.e4.iomt.sk/annotate-eppg/',
+#     'USE_SESSION_AUTH': False,
+# }
