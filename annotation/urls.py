@@ -15,11 +15,13 @@ schema_view = get_schema_view(
         description="This API annotates the ePPG file on the base of PSG recordings. To test the following requests with your data (and finally annotate the file), you should follow this sequence: /filters/, /filters/selected/, /files/eppg/, /annotate/",
     ),
     public=True,
-    permission_classes=[permissions.AllowAny],
+    permission_classes=[permissions.AllowAny]
+    # Apply in production, to automatically detect the path to the swagger
+    # url="https://psg.e4.iomt.sk/annotate-eppg",
 )
+
 urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # Optional: ReDoc UI
     path('filters/', GetFiltersView.as_view(), name='get_filters'),
     path('filters/selected/', ProcessUserFiltersView.as_view(), name='process_filters'),
     path('files/eppg/', UploadEPPGFileView.as_view(), name='upload_eppg'),
