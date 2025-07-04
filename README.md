@@ -11,5 +11,5 @@ A Django backend for the EPPG / RML annotation app.
 ### Start app in prod
 
 ```shell
-docker compose --build -d
+docker compose up --build -d
 ```
