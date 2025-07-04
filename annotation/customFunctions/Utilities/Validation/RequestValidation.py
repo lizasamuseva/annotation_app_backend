@@ -6,6 +6,7 @@ class RequestValidation:
     """
     Validates the request.
     """
+
     @staticmethod
     def content_type(request, mode: RequestContentType):
         """

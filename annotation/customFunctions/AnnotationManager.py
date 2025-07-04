@@ -8,12 +8,15 @@ from .Utilities.CustomExceptions import SessionExpired
 from .Utilities.DateTimeFunctions import DateTimeFunctions
 from .Utilities.ParserRML import ParserRML
 from .AnnotationsTypes.TypeEvent.EventRecordsList import EventRecordsList
-from .AnnotationsTypes.ContinuousStructures.ContinuousStructure import ContinuousStructureList, ContinuousStructureNotList
+from .AnnotationsTypes.ContinuousStructures.ContinuousStructure import ContinuousStructureList, \
+    ContinuousStructureNotList
+
 
 class AnnotationManager:
     """
     Handles annotation of ePPG recordings using synchronized PSG (RML) data.
     """
+
     def __init__(self, RML_dict, ePPG_path, filters):
         """
         Initializes the ProcessAnnotations class.
@@ -36,7 +39,6 @@ class AnnotationManager:
         self.sleep_stages_structure = None
         self.body_position_structure = None
 
-
     def calculate_time_offset(self, date_time_line):
         """
         Calculates and sets the time offset between the RML and ePPG recordings.
@@ -49,8 +51,10 @@ class AnnotationManager:
             ParserRML.get_nested_root_element(self.RML_dict, RECORD_TIME_ROOT_PATH)
         )
 
-        ePPG_datetime_recording = DateTimeFunctions.convert_serial_number_to_date(float(date_time_line.split("=")[1].split("\n")[0]))
-        time_offset = DateTimeFunctions.compare_datetime_from_rml_and_ePPG(rml_datetime_recording, ePPG_datetime_recording)
+        ePPG_datetime_recording = DateTimeFunctions.convert_serial_number_to_date(
+            float(date_time_line.split("=")[1].split("\n")[0]))
+        time_offset = DateTimeFunctions.compare_datetime_from_rml_and_ePPG(rml_datetime_recording,
+                                                                           ePPG_datetime_recording)
 
         self.ePPG_offset_time = timedelta(seconds=0).total_seconds()
         self.RML_offset_time = timedelta(seconds=0).total_seconds()
@@ -74,24 +78,31 @@ class AnnotationManager:
         if has_events_filters:
             event_filters = {k: v for k, v in self.filters.items() if k not in not_event_filters}
             if isinstance(self.roots_to_elements["Events"], list):
-                self.events_structure = EventRecordsList(self.roots_to_elements["Events"], self.RML_offset_time, self.ePPG_offset_time, event_filters)
+                self.events_structure = EventRecordsList(self.roots_to_elements["Events"], self.RML_offset_time,
+                                                         self.ePPG_offset_time, event_filters)
             else:
-                self.events_structure = EventRecordsNotList(self.roots_to_elements["Events"], self.RML_offset_time, self.ePPG_offset_time)
+                self.events_structure = EventRecordsNotList(self.roots_to_elements["Events"], self.RML_offset_time,
+                                                            self.ePPG_offset_time)
 
         # ------------SleepStages Structure-------------------
         if "SleepStages" in self.filters:
             if isinstance(self.roots_to_elements["SleepStages"], list):
-                self.sleep_stages_structure = ContinuousStructureList(self.roots_to_elements["SleepStages"], self.ePPG_offset_time, self.filters["SleepStages"],"@Type")
+                self.sleep_stages_structure = ContinuousStructureList(self.roots_to_elements["SleepStages"],
+                                                                      self.ePPG_offset_time,
+                                                                      self.filters["SleepStages"], "@Type")
             else:
-                self.sleep_stages_structure = ContinuousStructureNotList(self.roots_to_elements["SleepStages"], self.ePPG_offset_time, "@Type")
+                self.sleep_stages_structure = ContinuousStructureNotList(self.roots_to_elements["SleepStages"],
+                                                                         self.ePPG_offset_time, "@Type")
 
         # ------------BodyPositions Structure-------------------
         if "BodyPositions" in self.filters:
             if isinstance(self.roots_to_elements["BodyPositions"], list):
-                self.body_position_structure = ContinuousStructureList(self.roots_to_elements["BodyPositions"], self.ePPG_offset_time, self.filters["BodyPositions"], "@Position")
+                self.body_position_structure = ContinuousStructureList(self.roots_to_elements["BodyPositions"],
+                                                                       self.ePPG_offset_time,
+                                                                       self.filters["BodyPositions"], "@Position")
             else:
-                self.body_position_structure = ContinuousStructureNotList(self.roots_to_elements["BodyPositions"], self.ePPG_offset_time, "@Position")
-
+                self.body_position_structure = ContinuousStructureNotList(self.roots_to_elements["BodyPositions"],
+                                                                          self.ePPG_offset_time, "@Position")
 
     def add_annotations(self):
         """

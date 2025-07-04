@@ -4,7 +4,9 @@ from .Event import Event
 from zope.interface import implementer
 
 from .EventsRecordsStructure import EventsRecordsStructure
+
 logger = logging.getLogger(__name__)
+
 
 @implementer(EventsRecordsStructure)
 class EventRecordsList:
@@ -22,6 +24,7 @@ class EventRecordsList:
     - current_event: The currently active Event instance
     - array_START_events: Events that started at the same timestamp
     """
+
     def __init__(self, root, rml_offset_time, ePPG_offset_time, events_filters):
         self.events_records = root
         self.length_events_records = len(self.events_records)
@@ -35,7 +38,6 @@ class EventRecordsList:
         # Skip all unwanted events and initialize the working one
         if self.skip_events_before_start_of_ePPG(ePPG_offset_time):
             if self.skip_filter_oriented_events():
-
                 self.array_START_events = []
                 # Find the further events
                 self.find_events_with_the_same_time_start()
@@ -84,8 +86,9 @@ class EventRecordsList:
         # Find the events that have the same START time as the already filled one
         self.current_event_sequence_number += 1
         while (
-            self.length_events_records > self.current_event_sequence_number and
-            self.events_records[self.current_event_sequence_number]["@Start"] == self.current_event.non_synchronised_onset_time
+                self.length_events_records > self.current_event_sequence_number and
+                self.events_records[self.current_event_sequence_number][
+                    "@Start"] == self.current_event.non_synchronised_onset_time
         ):
 
             # Skip if the event wasn't requested in the filters
@@ -106,8 +109,7 @@ class EventRecordsList:
             # Set pointer to the next <Event>
             self.current_event_sequence_number += 1
 
-
-    #----------------------------------------Updating methods---------------------------------------------------------
+    # ----------------------------------------Updating methods----------------------------------------------------------
     def update_START_events_array(self):
         """
         Fills the array_START_events with the start annotations' names.
@@ -142,7 +144,7 @@ class EventRecordsList:
         # return new_list_element
         return [element]
 
-    # ----------------------------------------Writing methods into the file---------------------------------------------------------
+    # ----------------------------------------Writing methods into the file---------------------------------------------
 
     def write_START_events_into_comment_line(self, line_time_in_seconds, string_comment):
         """
@@ -162,7 +164,8 @@ class EventRecordsList:
 
             # Find NEW events to review, ONLY if they didn't run out of
             if self.length_events_records > self.current_event_sequence_number:
-                self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
+                self.current_event = Event(self.events_records[self.current_event_sequence_number],
+                                           self.rml_offset_time)
                 # Skip the non-requested events
                 if self.skip_filter_oriented_events():
                     self.find_events_with_the_same_time_start()
@@ -179,7 +182,6 @@ class EventRecordsList:
         if not self.no_events_left_to_observe_from_file and self.current_event.synchronised_onset_time == line_time_in_seconds:
             return True
         return False
-
 
     def write_END_events_into_comment_line(self, line_time_in_seconds, string_comment):
         """

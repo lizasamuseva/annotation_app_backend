@@ -1,7 +1,9 @@
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "api.settings")
 
 import django
+
 django.setup()
 
 from rest_framework.test import APIClient
@@ -55,7 +57,6 @@ def run_annotation_test(rml_path, eppg_path, expected_output_path, output_path, 
     )
 
 
-
 # MAIN GENERAL DIRECTORIES
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -64,21 +65,19 @@ eppg_path = os.path.join(BASE_DIR, "TestsData", "ePPG_Data.txt")
 expected_out_base_directory = os.path.join(BASE_DIR, "TestsData", "ExpectedResults")
 out_base_directory = os.path.join(BASE_DIR, "TestsOutputs")
 
-
-
-#-------------------------------------EVENTS-----------------------------------------
+# -------------------------------------EVENTS-----------------------------------------
 rml_events_path = os.path.join(rml_base_directory, "EventsStructureTesting")
 expected_events_path = os.path.join(expected_out_base_directory, "EventsStructureTesting")
 out_events_path = os.path.join(out_base_directory, "EventsStructureTesting")
 # There will be two test suites: Events as List and as Element
 
-#-----------------EVENTS AS LIST-----------------------------------------------------
+# -----------------EVENTS AS LIST-----------------------------------------------------
 # This section tests the annotation of different situations for events as list structure
 rml_list_events_path = os.path.join(rml_events_path, "ListInstance")
 expected_list_events_path = os.path.join(expected_events_path, "ListInstance")
 out_events_list_path = os.path.join(out_events_path, "ListInstance")
 
-#--------Synchronization Tests-------------------------------------------------------
+# --------Synchronization Tests-------------------------------------------------------
 rml_list_events_synch_path = os.path.join(rml_list_events_path, "SynchronizationTesting")
 expected_list_events_synch_path = os.path.join(expected_list_events_path, "SynchronizationTesting")
 out_events_list_synch_path = os.path.join(out_events_list_path, "SynchronizationTesting")
@@ -97,14 +96,14 @@ synchronization_tests = [
         eppg_path,
         os.path.join(expected_list_events_synch_path, "test_1.txt"),
         os.path.join(out_events_list_synch_path, "test_1.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration" : ["Apnea"], "Cardiac" : ["Tachycardia"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration": ["Apnea"], "Cardiac": ["Tachycardia"]}},
     ),
     (
         os.path.join(rml_list_events_synch_path, "test_2_events_recorded_after.rml"),
         eppg_path,
         os.path.join(expected_list_events_synch_path, "test_2.txt"),
         os.path.join(out_events_list_synch_path, "test_2.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration" : ["Apnea"], "Cardiac" : ["Tachycardia"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration": ["Apnea"], "Cardiac": ["Tachycardia"]}},
     ),
     (
         os.path.join(rml_list_events_synch_path, "test_3_events_recorded_before_and_after.rml"),
@@ -115,7 +114,7 @@ synchronization_tests = [
     ),
 
 ]
-#--------Filters Tests-------------------------------------------------------
+# --------Filters Tests-------------------------------------------------------
 rml_list_events_filters_path = os.path.join(rml_list_events_path, "FiltersTesting")
 expected_list_events_filters_path = os.path.join(expected_list_events_path, "FiltersTesting")
 out_events_list_filters_path = os.path.join(out_events_list_path, "FiltersTesting")
@@ -131,17 +130,17 @@ filters_tests = [
         eppg_path,
         os.path.join(expected_list_events_filters_path, "test_1.txt"),
         os.path.join(out_events_list_filters_path, "test_1.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration" : ["Apnea"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration": ["Apnea"]}},
     ),
     (
         os.path.join(rml_list_events_filters_path, "test_1_2.rml"),
         eppg_path,
         os.path.join(expected_list_events_filters_path, "test_2.txt"),
         os.path.join(out_events_list_filters_path, "test_2.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration" : ["Apnea"], "Cardiac": ["Tachycardia"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration": ["Apnea"], "Cardiac": ["Tachycardia"]}},
     )
 ]
-#--------Start Events Tests-------------------------------------------------------
+# --------Start Events Tests-------------------------------------------------------
 rml_list_events_start_path = os.path.join(rml_list_events_path, "StartEventsTesting")
 expected_list_events_start_path = os.path.join(expected_list_events_path, "StartEventsTesting")
 out_events_list_start_path = os.path.join(out_events_list_path, "StartEventsTesting")
@@ -157,7 +156,7 @@ start_events = [
         eppg_path,
         os.path.join(expected_list_events_start_path, "test_1.txt"),
         os.path.join(out_events_list_start_path, "test_1.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration" : ["Apnea"], "Cardiac": ["Tachycardia"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration": ["Apnea"], "Cardiac": ["Tachycardia"]}},
     ),
     (
         os.path.join(rml_list_events_start_path, "test_1_2.rml"),
@@ -167,7 +166,7 @@ start_events = [
         {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Cardiac": ["Tachycardia"]}},
     )
 ]
-#--------End Events Tests-------------------------------------------------------
+# --------End Events Tests-------------------------------------------------------
 rml_list_events_end_path = os.path.join(rml_list_events_path, "EndEventsTesting")
 expected_list_events_end_path = os.path.join(expected_list_events_path, "EndEventsTesting")
 out_events_list_end_path = os.path.join(out_events_list_path, "EndEventsTesting")
@@ -183,20 +182,23 @@ end_events = [
         eppg_path,
         os.path.join(expected_list_events_end_path, "test_1.txt"),
         os.path.join(out_events_list_end_path, "test_1.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration" : ["Apnea"], "Cardiac": ["Tachycardia", "Bradycardia"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration": ["Apnea"], "Cardiac": ["Tachycardia", "Bradycardia"]}},
     ),
 ]
-#--------write_START_events_into_comment_line Tests-------------------------------------------------------
+
+
+# --------write_START_events_into_comment_line Tests-------------------------------------------------------
 # There could be situation, which wasn't mention, but already tested: three events (2 at the same start time, one not)
 # It was tested in end_events test_1
-#---------------------------------------------------Test function-----------------------------------------
+# ---------------------------------------------------Test function-----------------------------------------
 
-@pytest.mark.parametrize("rml,eppg,expected,output,filters", synchronization_tests + filters_tests + start_events + end_events)
+@pytest.mark.parametrize("rml,eppg,expected,output,filters",
+                         synchronization_tests + filters_tests + start_events + end_events)
 def test_events_list_structure_annotation(rml, eppg, expected, output, filters):
     run_annotation_test(rml, eppg, expected, output, filters)
 
 
-#-----------------EVENTS AS ELEMENT-----------------------------------------------------
+# -----------------EVENTS AS ELEMENT-----------------------------------------------------
 # Testing this structure, there could be the next situations:
 # 1. The single event is not in filters, then the structure EventsRecordsNotList does not exist =>test is omitted
 # 2. (test_1) The element is skipped because of the synchronization time, or it is type of "User" (will be tested only first condition)
@@ -212,30 +214,30 @@ element_events = [
         eppg_path,
         os.path.join(expected_element_event_path, "test_1.txt"),
         os.path.join(out_element_event_path, "test_1.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration" : ["Apnea"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration": ["Apnea"]}},
     ),
     (
         os.path.join(rml_element_event_path, "test_2.rml"),
         eppg_path,
         os.path.join(expected_element_event_path, "test_2.txt"),
         os.path.join(out_element_event_path, "test_2.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration" : ["Apnea"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"Respiration": ["Apnea"]}},
     )
 ]
+
 
 @pytest.mark.parametrize("rml,eppg,expected,output,filters", element_events)
 def test_events_element_structure_annotation(rml, eppg, expected, output, filters):
     run_annotation_test(rml, eppg, expected, output, filters)
 
 
-
-#-------------------------------------CONTINUOUS STRUCTURE-----------------------------------------
+# -------------------------------------CONTINUOUS STRUCTURE-----------------------------------------
 rml_continuous_structure_path = os.path.join(rml_base_directory, "ContinuousStructureTesting")
 expected_continuous_structure_path = os.path.join(expected_out_base_directory, "ContinuousStructureTesting")
 out_continuous_structure_path = os.path.join(out_base_directory, "ContinuousStructureTesting")
 # There will be two test suites: Continuous Structures as List and as Element
 
-#-----------------CONTINUOUS STRUCTURE AS LIST-----------------------------------------------------
+# -----------------CONTINUOUS STRUCTURE AS LIST-----------------------------------------------------
 # Testing this structure, there could be the next situations:
 # The next two situation test initialization process
 # 1. (test_1) Two elements are not annotated: the first because of sync process, the second because of filters inclusion (just to test two different situations)
@@ -249,29 +251,31 @@ continuous_structure_list = [
         eppg_path,
         os.path.join(expected_continuous_structure_path, "test_1.txt"),
         os.path.join(out_continuous_structure_path, "test_1.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages" : ["NonREM1"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages": ["NonREM1"]}},
     ),
     (
         os.path.join(rml_continuous_structure_path, "test_2.rml"),
         eppg_path,
         os.path.join(expected_continuous_structure_path, "test_2.txt"),
         os.path.join(out_continuous_structure_path, "test_2.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages" : ["NonREM2"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages": ["NonREM2"]}},
     ),
-(
+    (
         os.path.join(rml_continuous_structure_path, "test_2.rml"),
         eppg_path,
         os.path.join(expected_continuous_structure_path, "test_3.txt"),
         os.path.join(out_continuous_structure_path, "test_3.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages" : ["NonREM1"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages": ["NonREM1"]}},
     )
 ]
+
 
 @pytest.mark.parametrize("rml,eppg,expected,output,filters", continuous_structure_list)
 def test_continuous_structure_list_annotation(rml, eppg, expected, output, filters):
     run_annotation_test(rml, eppg, expected, output, filters)
 
-#-----------------CONTINUOUS STRUCTURE AS ELEMENT-----------------------------------------------------
+
+# -----------------CONTINUOUS STRUCTURE AS ELEMENT-----------------------------------------------------
 # Testing this structure, there could be the next situations:
 # 1. (test_3) Element was skipped during initialization process
 # 2. (test_4) The element was recorded
@@ -282,31 +286,32 @@ continuous_structure_list = [
         eppg_path,
         os.path.join(expected_continuous_structure_path, "test_3.txt"),
         os.path.join(out_continuous_structure_path, "test_3.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages" : ["NonREM1"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages": ["NonREM1"]}},
     ),
     (
         os.path.join(rml_continuous_structure_path, "test_4.rml"),
         eppg_path,
         os.path.join(expected_continuous_structure_path, "test_4.txt"),
         os.path.join(out_continuous_structure_path, "test_4.txt"),
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages" : ["NonREM1"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages": ["NonREM1"]}},
     ),
 ]
+
 
 @pytest.mark.parametrize("rml,eppg,expected,output,filters", continuous_structure_list)
 def test_continuous_structure_list_annotation(rml, eppg, expected, output, filters):
     run_annotation_test(rml, eppg, expected, output, filters)
 
 
-
-
-#-------------------------------------GENERAL TESTING-----------------------------------------
+# -------------------------------------GENERAL TESTING-----------------------------------------
 # This section tests the synchronization between files, when ePPG is recorded earlier than PSG
 # This test is applicable to all structures identically
-rml_general_testing_eppg_earlier_path = os.path.join(rml_base_directory, "GeneralTesting", "test_1_eppg_recorded_earlier.rml")
-expected_general_testing_eppg_earlier_path = os.path.join(expected_out_base_directory, "GeneralTesting", "test_1_eppg_recorded_earlier.txt")
-out_general_testing_eppg_earlier_path = os.path.join(out_base_directory, "GeneralTesting", "test_1_eppg_recorded_earlier.txt")
-
+rml_general_testing_eppg_earlier_path = os.path.join(rml_base_directory, "GeneralTesting",
+                                                     "test_1_eppg_recorded_earlier.rml")
+expected_general_testing_eppg_earlier_path = os.path.join(expected_out_base_directory, "GeneralTesting",
+                                                          "test_1_eppg_recorded_earlier.txt")
+out_general_testing_eppg_earlier_path = os.path.join(out_base_directory, "GeneralTesting",
+                                                     "test_1_eppg_recorded_earlier.txt")
 
 general_testing = [
     (
@@ -314,9 +319,10 @@ general_testing = [
         eppg_path,
         expected_general_testing_eppg_earlier_path,
         out_general_testing_eppg_earlier_path,
-        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages" : ["NonREM1"]}},
+        {KEY_IN_REQUEST_REQUIRED_FILTERS: {"SleepStages": ["NonREM1"]}},
     )
 ]
+
 
 @pytest.mark.parametrize("rml,eppg,expected,output,filters", general_testing)
 def test_general_testing_annotation(rml, eppg, expected, output, filters):

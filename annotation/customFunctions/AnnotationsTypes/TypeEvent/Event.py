@@ -1,9 +1,11 @@
 from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeFunctions
 
+
 class Event:
     """
     This class stores all information about node <Event>.
     """
+
     def __init__(self, event_info, rml_offset_time):
         """
         Initializes an Event instance using raw event metadata and an RML offset.
@@ -12,8 +14,10 @@ class Event:
         """
         self.create_event_name(event_info)
         self.non_synchronised_onset_time = event_info["@Start"]
-        self.synchronised_onset_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.non_synchronised_onset_time, rml_offset_time)
-        self.end_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.synchronised_onset_time, event_info["@Duration"])
+        self.synchronised_onset_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(
+            self.non_synchronised_onset_time, rml_offset_time)
+        self.end_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.synchronised_onset_time,
+                                                                                   event_info["@Duration"])
 
     def create_event_name(self, event):
         """

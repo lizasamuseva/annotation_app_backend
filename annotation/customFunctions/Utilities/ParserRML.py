@@ -3,10 +3,13 @@ from xml.etree.ElementTree import ParseError
 import xmltodict
 import xml.etree.ElementTree as ET
 
-from annotation.customFunctions.Utilities.Constants.constants import EVENTS_ROOT_PATH, SLEEP_STAGES_ROOT_PATH, BODY_POSITIONS_ROOT_PATH
+from annotation.customFunctions.Utilities.Constants.constants import EVENTS_ROOT_PATH, SLEEP_STAGES_ROOT_PATH, \
+    BODY_POSITIONS_ROOT_PATH
 from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 class ParserRML:
     """
@@ -25,7 +28,7 @@ class ParserRML:
         return namespaces
 
     @staticmethod
-    def parse_RML_to_Dict(path_to_tmp_RML):
+    def parse_RML_to_dict(path_to_tmp_RML):
         """
         Parses an RML file into a dictionary using xmltodict.
 
@@ -68,7 +71,7 @@ class ParserRML:
         Extracts and returns key RML sections (Events, SleepStages, BodyPositions) from the parsed dictionary.
         """
         return {
-            "Events" : ParserRML.get_nested_root_element(RML_dictionary, EVENTS_ROOT_PATH),
+            "Events": ParserRML.get_nested_root_element(RML_dictionary, EVENTS_ROOT_PATH),
             "SleepStages": ParserRML.get_nested_root_element(RML_dictionary, SLEEP_STAGES_ROOT_PATH),
             "BodyPositions": ParserRML.get_nested_root_element(RML_dictionary, BODY_POSITIONS_ROOT_PATH)
         }

@@ -1,5 +1,7 @@
 from abc import abstractmethod, ABC
+
 from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeFunctions
+
 
 class ContinuousStructure(ABC):
     """
@@ -8,6 +10,7 @@ class ContinuousStructure(ABC):
         Designed to support continuous events like SleepStages and BodyPositions.
         Supports both single elements and lists of elements.
     """
+
     def __init__(self, root):
         self.root = root
 
@@ -46,6 +49,7 @@ class ContinuousStructureList(ContinuousStructure):
     """
     Handles annotation logic for RML nodes that appear as lists (e.g., multiple SleepStages or BodyPositions).
     """
+
     def __init__(self, root, ePPG_offset_time, filters, element_property_name):
         super().__init__(root)
         self.root_length = len(self.root)
@@ -57,7 +61,7 @@ class ContinuousStructureList(ContinuousStructure):
         # OR the type isn't required by client's filters
         while (self.current_number_of_element < self.root_length and
                (ePPG_offset_time > float(self.root[self.current_number_of_element]["@Start"]) or
-               self.root[self.current_number_of_element][self.element_property_name] not in self.filters)):
+                self.root[self.current_number_of_element][self.element_property_name] not in self.filters)):
             self.current_number_of_element += 1
 
     def edit_comment(self, string_comment, element_group):
@@ -68,7 +72,8 @@ class ContinuousStructureList(ContinuousStructure):
         # 1. Check whether the nodes (e.g. <Stage>, <BodyPositionItem>) did not run out of
         if self.current_number_of_element < self.root_length:
             # 2. Calculate the synchronized time of the record
-            current_element_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.root[self.current_number_of_element]["@Start"], rml_offset_time)
+            current_element_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(
+                self.root[self.current_number_of_element]["@Start"], rml_offset_time)
             # 3. Check whether the synchronized time equal to ePPG line time
             if line_time_in_seconds == current_element_time:
                 # 4. Initialize new line with annotation to write to ePPG
@@ -86,6 +91,7 @@ class ContinuousStructureNotList(ContinuousStructure):
     """
     Handles annotation logic for RML nodes that appear as a single element.
     """
+
     def __init__(self, root, ePPG_offset_time, element_property_name):
         super().__init__(root)
         self.element_is_recorded = False
@@ -104,7 +110,8 @@ class ContinuousStructureNotList(ContinuousStructure):
         # 1. Check whether the element wasn't skipped
         if not self.element_was_skipped:
             # 2. Calculate the synchronized time
-            element_start_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.root["@Start"], rml_offset_time)
+            element_start_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.root["@Start"],
+                                                                                            rml_offset_time)
             # 3. Adjust the annotation to the line, if the times (from RML and ePPG) are equal
             if line_time_in_seconds == element_start_time:
                 self.element_is_recorded = True

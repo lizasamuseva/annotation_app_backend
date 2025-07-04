@@ -26,7 +26,7 @@ urlpatterns = [
     path('filters/selected/', ProcessUserFiltersView.as_view(), name='process_filters'),
     path('files/eppg/', UploadEPPGFileView.as_view(), name='upload_eppg'),
     path('annotate/', AnnotateView.as_view(), name='annotate'),
-
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

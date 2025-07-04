@@ -14,4 +14,3 @@ CACHE_KEY_EPPG_PATH = 'eppg_path_cache_key'
 KEY_IN_REQUEST_RML = "RML_src"
 KEY_IN_REQUEST_REQUIRED_FILTERS = "filters"
 KEY_IN_REQUEST_EPPG = "EPPG_src"
-

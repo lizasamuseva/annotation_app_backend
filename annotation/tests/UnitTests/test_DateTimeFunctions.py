@@ -33,6 +33,7 @@ class DateTimeTests(unittest.TestCase):
     """
     Next four tests check function compare_datetime_from_rml_and_ePPG on the results: neutral, positive, negative, and neutral values.
     """
+
     def test_compare_datetime_from_rml_and_ePPG_Equality(self):
         rml_datetime = datetime.strptime("2024-10-02T19:22:23", "%Y-%m-%dT%H:%M:%S")
         ePPG_datetime = DateTimeFunctions.convert_serial_number_to_date(45567.8072106)

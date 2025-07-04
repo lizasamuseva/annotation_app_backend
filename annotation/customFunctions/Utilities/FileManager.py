@@ -1,12 +1,12 @@
 import os
 import tempfile
-import uuid
 
-from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
+from django.core.files.storage import FileSystemStorage
 
 from annotation.customFunctions.Utilities.CustomExceptions import SessionExpired
 from api import settings
+
 
 class FileManager:
     """
@@ -14,7 +14,7 @@ class FileManager:
     """
 
     @staticmethod
-    def process_temporally_file_saving_WITHIN_REQUEST(uploaded_file):
+    def process_temporally_file_saving_within_request(uploaded_file):
         """
         Temporarily stores the uploaded file for use within the scope of a single request.
         """
@@ -29,7 +29,7 @@ class FileManager:
             raise e
 
     @staticmethod
-    def process_persistent_file_saving_ACROSS_REQUESTS(uploaded_file):
+    def process_persistent_file_saving_across_requests(uploaded_file):
         """
         Stores the uploaded file in MEDIA root folder to access file across multiple requests.
         """
@@ -39,7 +39,7 @@ class FileManager:
         return fs.path(filename)
 
     @staticmethod
-    def create_and_save_file_in_MEDIA(content, filename, subdir="uploads"):
+    def create_and_save_file_in_media(content, filename, subdir="uploads"):
         """
         Creates a new file (e.g. annotated version of the ePPG file) and stores it in MEDIA folder.
         """

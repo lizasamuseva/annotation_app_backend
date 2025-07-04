@@ -10,10 +10,11 @@ class BaseFileValidation(ABC):
     """
     An abstract base class that defines the interface for all file validations.
     """
-    def __init__(self, fileType):
+
+    def __init__(self, file_type):
         self.uploaded_file = None
         self.requestType = RequestContentType.FILE
-        match fileType:
+        match file_type:
             case "RML":
                 self.key_name = KEY_IN_REQUEST_RML
                 self.mimeType = MIMETypes.RML
@@ -23,7 +24,7 @@ class BaseFileValidation(ABC):
                 self.mimeType = MIMETypes.EPPG
                 self.fileExtension = FilesExtensions.EPPG
             case _:
-                raise ValueError(f"Unsupported file type: {fileType}")
+                raise ValueError(f"Unsupported file type: {file_type}")
 
     def MIME_type(self):
         """

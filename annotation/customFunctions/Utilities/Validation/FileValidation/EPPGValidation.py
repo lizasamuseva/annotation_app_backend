@@ -1,15 +1,18 @@
 from annotation.customFunctions.Utilities.Validation.FileValidation.BaseFileValidation import BaseFileValidation
 from annotation.customFunctions.Utilities.CustomExceptions import EppgFileInvalid
 
+
 class EPPGValidation(BaseFileValidation):
     """
     Implements functions related to ePPG validation.
     """
+
     def __init__(self, request):
         super().__init__("EPPG")
         self.request = request
 
-    def has_header(self, uploaded_file):
+    @staticmethod
+    def has_header(uploaded_file):
         """
         Validates whether the uploaded file has a header.
         Header should contain:
@@ -48,7 +51,6 @@ class EPPGValidation(BaseFileValidation):
             raise EppgFileInvalid("Your ePPG file doesn't contain valid records.")
         # Reset pointer of the file to start
         uploaded_file.seek(0)
-
 
     def validate(self):
         """

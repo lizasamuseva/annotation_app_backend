@@ -8,6 +8,7 @@ class RequestContentType(Enum):
     FILE = 'multipart/form-data'
     JSON = 'application/json'
 
+
 class MIMETypes(Enum):
     """
     Expected MIME types for specific file uploads.
@@ -15,10 +16,10 @@ class MIMETypes(Enum):
     RML = 'application/octet-stream'
     EPPG = 'text/plain'
 
+
 class FilesExtensions(Enum):
     """
     Allowed file extensions for supported file types.
     """
     RML = ".rml"
     EPPG = ".txt"
-

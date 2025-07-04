@@ -1,18 +1,22 @@
 import logging
 import os
-from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
-from rest_framework import status
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
-from rest_framework.views import APIView
-from rest_framework.parsers import MultiPartParser, FormParser
+
 from django.http import FileResponse
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from rest_framework.parsers import MultiPartParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from annotation.customFunctions.AnnotationManager import AnnotationManager
 from annotation.customFunctions.Utilities.Constants.SupportedRequestsTypes import \
     RequestContentType
 from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_PARSED_RML, \
     CACHE_KEY_ALL_POSSIBLE_FILTERS, CACHE_KEY_REQUIRED_FILTERS, KEY_IN_REQUEST_REQUIRED_FILTERS, CACHE_KEY_EPPG_PATH
+from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure, \
+    EppgFileInvalid, SessionExpired
 from annotation.customFunctions.Utilities.FileManager import FileManager
 from annotation.customFunctions.Utilities.Filters import Filters
 from annotation.customFunctions.Utilities.ParserRML import ParserRML
@@ -20,12 +24,9 @@ from annotation.customFunctions.Utilities.Validation.FileValidation.EPPGValidati
 from annotation.customFunctions.Utilities.Validation.FileValidation.RMLValidation import RMLValidation
 from annotation.customFunctions.Utilities.Validation.FilterValidation import FilterValidation
 from annotation.customFunctions.Utilities.Validation.RequestValidation import RequestValidation
-from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure, \
-    EppgFileInvalid, SessionExpired
 from annotation.serializers import FiltersResponseSerializer
 
 logger = logging.getLogger(__name__)
-
 
 
 class GetFiltersView(APIView):
@@ -50,6 +51,7 @@ class GetFiltersView(APIView):
             An unexpected server error occurred.
     """
     parser_classes = [MultiPartParser]
+
     # LOCALHOST: https://localhost:8000/static/sample.rml
     @swagger_auto_schema(
         operation_description="""
@@ -87,29 +89,35 @@ class GetFiltersView(APIView):
             uploaded_file = RMLValidation(request).validate()
 
             # Step 2: Save the file temporarily in memory for use during the current request
-            path_to_RML = FileManager.process_temporally_file_saving_WITHIN_REQUEST(uploaded_file)
+            path_to_RML = FileManager.process_temporally_file_saving_within_request(uploaded_file)
 
             # Step 3: Parse file into dict form and save dict in cache
-            parsed_rml = ParserRML.parse_RML_to_Dict(path_to_RML)
+            parsed_rml = ParserRML.parse_RML_to_dict(path_to_RML)
             FileManager.save_entity_to_the_cache(request, CACHE_KEY_PARSED_RML, parsed_rml)
 
             # Step 4: Extract the filters and save in cache
             all_possible_filters = Filters(parsed_rml)
-            FileManager.save_entity_to_the_cache(request, CACHE_KEY_ALL_POSSIBLE_FILTERS, all_possible_filters.get_filters())
+            FileManager.save_entity_to_the_cache(request, CACHE_KEY_ALL_POSSIBLE_FILTERS,
+                                                 all_possible_filters.get_filters())
 
-            return Response({'result': {"filters" : all_possible_filters.get_filters()}}, status=status.HTTP_200_OK)
+            return Response({'result': {"filters": all_possible_filters.get_filters()}}, status=status.HTTP_200_OK)
+
         # Catch any validation error
         except ValidationError as ve:
-            return Response({'error': str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)},
+                            status=status.HTTP_400_BAD_REQUEST)
+
         # Catch the Error, if the RML doesn't contain the keys in dictionary, which are required for further processing
         # Or whether the structure of the rml doesn't correspond to XML
         except (MissingRMLKeyError, InvalidRMLStructure) as invalidError:
             return Response({'error': str(invalidError)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
         except Exception as e:
             logger.error(f"Unexpected error in GetFiltersView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         finally:
             if path_to_RML:
                 FileManager.cleanup_file(path_to_RML)
@@ -131,7 +139,9 @@ class ProcessUserFiltersView(APIView):
         - 500 INTERNAL_SERVER_ERROR:
             An unexpected server error occurred.
     """
-    def validate_request_filters(self, request):
+
+    @staticmethod
+    def validate_request_filters(request):
         """
         Validates the filter format and checks if all filters are allowed.
         """
@@ -202,18 +212,21 @@ class ProcessUserFiltersView(APIView):
             required_filters = self.validate_request_filters(request)
 
             # Step 2: Save required filters to the cache
-            FileManager.save_entity_to_the_cache(request, CACHE_KEY_REQUIRED_FILTERS , required_filters)
+            FileManager.save_entity_to_the_cache(request, CACHE_KEY_REQUIRED_FILTERS, required_filters)
             return Response(status=status.HTTP_204_NO_CONTENT)
+
         except ValidationError as ve:
             logger.error(f"Unexpected error in ProcessUserFiltersView.", exc_info=True)
             return Response({
                 'error': str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)
             }, status=status.HTTP_400_BAD_REQUEST)
+
         except Exception as e:
             logger.error(f"Unexpected error in ProcessUserFiltersView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class UploadEPPGFileView(APIView):
     """
@@ -236,7 +249,7 @@ class UploadEPPGFileView(APIView):
     """
     parser_classes = [MultiPartParser]
 
-    #Localhost: http://localhost:8000/static/sample_eppg.txt
+    # Localhost: http://localhost:8000/static/sample_eppg.txt
     @swagger_auto_schema(
         operation_description="""
         Upload an ePPG file under the form key `EPPG_src`. 
@@ -264,23 +277,28 @@ class UploadEPPGFileView(APIView):
             uploaded_file = EPPGValidation(request).validate()
 
             # Step 2: Persist the file across requests
-            EPPG_path = FileManager.process_persistent_file_saving_ACROSS_REQUESTS(uploaded_file)
+            EPPG_path = FileManager.process_persistent_file_saving_across_requests(uploaded_file)
 
             # Step 3: Save the path into the cache
             FileManager.save_entity_to_the_cache(request, CACHE_KEY_EPPG_PATH, EPPG_path)
 
             return Response(status=status.HTTP_204_NO_CONTENT)
+
         # Catch any validation error
         except ValidationError as ve:
-            return Response({'error': str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)},
+                            status=status.HTTP_400_BAD_REQUEST)
+
         # Catch Error if the EPPG file doesn't contain appropriate header/previous request is expired
         except (EppgFileInvalid, SessionExpired) as ee:
             return Response({'error': str(ee)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
         except Exception as e:
             logger.error(f"Unexpected error in ProcessUserFiltersView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class AnnotateView(APIView):
     """
@@ -301,6 +319,7 @@ class AnnotateView(APIView):
         - 500 INTERNAL_SERVER_ERROR:
             Output file was not generated or an unexpected error occurred.
     """
+
     @swagger_auto_schema(
         operation_description="Annotates the uploaded ePPG file with PSG data and selected filters, then returns the annotated file for download.",
         responses={
@@ -348,19 +367,23 @@ class AnnotateView(APIView):
                 return Response({
                     'error': 'Something went wrong. Please, try again.'
                 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         except SessionExpired:
             return Response({
                 'error': SessionExpired
             }, status=status.HTTP_409_CONFLICT)
+
         except EppgFileInvalid as error:
             return Response({
                 'error': str(error)
             }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
         except Exception as e:
             logger.error(f"Unexpected error in AnnotateView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.',
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         finally:
             if EPPG_path:
                 FileManager.cleanup_file(EPPG_path)

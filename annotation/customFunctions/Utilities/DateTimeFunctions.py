@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 from annotation.customFunctions.Utilities.CustomExceptions import EppgFileInvalid
 
+
 class DateTimeFunctions:
     """
        Utility class for handling date and time conversions/synchronization related to ePPG and PSG files time difference.
@@ -21,7 +22,7 @@ class DateTimeFunctions:
         result = temp + timedelta(days=rounded_serial_number)
 
         # Round the microseconds (to seconds) according to the rounding rule
-        if result.microsecond >= 1000000/2:
+        if result.microsecond >= 1000000 / 2:
             result += timedelta(seconds=1)
 
         # Remove microseconds
@@ -32,8 +33,7 @@ class DateTimeFunctions:
         """
             Converts the recording start date/time from PSG file into datetime format
         """
-        return datetime.strptime(datetime_element,"%Y-%m-%dT%H:%M:%S")
-
+        return datetime.strptime(datetime_element, "%Y-%m-%dT%H:%M:%S")
 
     @staticmethod
     def compare_datetime_from_rml_and_ePPG(rml_datetime, ePPG_datetime):
@@ -49,7 +49,6 @@ class DateTimeFunctions:
             raise EppgFileInvalid("Review your files, they have the difference more than 8 hours.")
         return difference_between_datetime.total_seconds()
 
-
     @staticmethod
     def calculate_timedelta_plus_time_in_seconds(start, delta):
         """
@@ -64,12 +63,11 @@ class DateTimeFunctions:
             1) Time should be float number with precision 3
             2) If the part after "." is 000, this part should be removed
         """
-        new_time_with_offset= str(round(float(start) + float(delta), 3))
+        new_time_with_offset = str(round(float(start) + float(delta), 3))
 
         if new_time_with_offset.split('.')[1] == "0":
-             new_time_with_offset = new_time_with_offset.split(".")[0]
+            new_time_with_offset = new_time_with_offset.split(".")[0]
         return new_time_with_offset
-
 
     @staticmethod
     def convert_time_of_record_into_dict_form(time_of_record):
@@ -94,7 +92,6 @@ class DateTimeFunctions:
             "seconds": time_of_record_splat_point[0],
             "milliseconds": time_of_record_splat_point[1]
         })
-
 
     @staticmethod
     def convert_time_of_occasion_into_seconds(time):

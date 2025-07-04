@@ -1,5 +1,5 @@
-import logging
 from annotation.customFunctions.Utilities.ParserRML import ParserRML
+
 
 class Filters:
     """
@@ -53,7 +53,8 @@ class Filters:
 
         # Raise ValueError if all root elements (<Event>, <NeuroAdultAASMStaging>, <BodyPositionItem>) are empty
         if not self.filters:
-            raise ValueError("The RML file structure is invalid: roots <Event>, <UserStaging><NeuroAdultAASMStaging> and <BodyPositionItem> are empty.")
+            raise ValueError(
+                "The RML file structure is invalid: roots <Event>, <UserStaging><NeuroAdultAASMStaging> and <BodyPositionItem> are empty.")
 
     def initialize_filters_for_events(self, events):
         """
