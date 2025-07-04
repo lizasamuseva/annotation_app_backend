@@ -50,6 +50,7 @@ class GetFiltersView(APIView):
         - 500 INTERNAL_SERVER_ERROR:
             An unexpected server error occurred.
     """
+
     parser_classes = [MultiPartParser]
 
     # LOCALHOST: https://localhost:8000/static/sample.rml
@@ -81,7 +82,7 @@ class GetFiltersView(APIView):
         }
     )
     def post(self, request):
-        path_to_RML = None
+        path_to_rml = None
         # This will ensure a session is created
         request.session.modified = True
         try:
@@ -115,12 +116,12 @@ class GetFiltersView(APIView):
         except Exception as e:
             logger.error(f"Unexpected error in GetFiltersView.", exc_info=True)
             return Response({
-                "error": "An unexpected error occurred. Please contact support.'
+                "error": "An unexpected error occurred. Please contact support."
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         finally:
-            if path_to_RML:
-                FileManager.cleanup_file(path_to_RML)
+            if path_to_rml:
+                FileManager.cleanup_file(path_to_rml)
 
 
 class ProcessUserFiltersView(APIView):
@@ -145,6 +146,7 @@ class ProcessUserFiltersView(APIView):
         """
         Validates the filter format and checks if all filters are allowed.
         """
+
         RequestValidation.content_type(request, RequestContentType.JSON)
         required_filters = FilterValidation.has_correct_format(request.data, KEY_IN_REQUEST_REQUIRED_FILTERS)
         FilterValidation.are_filters_allowed(request, required_filters)
@@ -247,6 +249,7 @@ class UploadEPPGFileView(APIView):
         - 500 INTERNAL_SERVER_ERROR:
             An unexpected server error occurred.
     """
+
     parser_classes = [MultiPartParser]
 
     # Localhost: http://localhost:8000/static/sample_eppg.txt
@@ -277,10 +280,10 @@ class UploadEPPGFileView(APIView):
             uploaded_file = EPPGValidation(request).validate()
 
             # Step 2: Persist the file across requests
-            EPPG_path = FileManager.across(uploaded_file)
+            eppg_path = FileManager.across(uploaded_file)
 
             # Step 3: Save the path into the cache
-            FileManager.save_cache(request, CACHE_KEY_EPPG_PATH, EPPG_path)
+            FileManager.save_cache(request, CACHE_KEY_EPPG_PATH, eppg_path)
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -293,7 +296,7 @@ class UploadEPPGFileView(APIView):
         except (EPPGFileInvalid, SessionExpired) as ee:
             return Response({'error': str(ee)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
-        except Exception as e:
+        except Exception:
             logger.error(f"Unexpected error in ProcessUserFiltersView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.'
@@ -343,23 +346,23 @@ class AnnotateView(APIView):
         }
     )
     def get(self, request):
-        EPPG_path = None
+        eppg_path = None
         output_file_path = None
         try:
             # Get user oriented information
-            RML_dict = FileManager.get_cache(request, CACHE_KEY_PARSED_RML)
+            rml_dict = FileManager.get_cache(request, CACHE_KEY_PARSED_RML)
 
-            EPPG_path = FileManager.get_cache(request, CACHE_KEY_EPPG_PATH)
+            eppg_path = FileManager.get_cache(request, CACHE_KEY_EPPG_PATH)
             filters = FileManager.get_cache(request, CACHE_KEY_REQUIRED_FILTERS)
 
             # Annotate the file
-            annotation_manager = AnnotationManager(RML_dict, EPPG_path, filters)
+            annotation_manager = AnnotationManager(rml_dict, eppg_path, filters)
             output_file_path = annotation_manager.add_annotations()
 
             # Respond with the annotated output file
             if os.path.exists(output_file_path):
                 file = open(output_file_path, 'rb')
-                filename = os.path.basename(EPPG_path)
+                filename = os.path.basename(eppg_path)
                 response = FileResponse(file, content_type='text/plain')
                 response['Content-Disposition'] = f'attachment; filename="{filename.split(".")[0]}_Annotated.txt"'
                 return response
@@ -378,14 +381,14 @@ class AnnotateView(APIView):
                 'error': str(error)
             }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
-        except Exception as e:
+        except Exception:
             logger.error(f"Unexpected error in AnnotateView.", exc_info=True)
             return Response({
                 'error': 'An unexpected error occurred. Please contact support.',
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         finally:
-            if EPPG_path:
-                FileManager.cleanup_file(EPPG_path)
+            if eppg_path:
+                FileManager.cleanup_file(eppg_path)
             if output_file_path:
                 FileManager.cleanup_file(output_file_path)
