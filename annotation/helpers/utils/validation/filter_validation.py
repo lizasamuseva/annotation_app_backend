@@ -1,12 +1,12 @@
 from rest_framework.exceptions import ValidationError
 
-from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_ALL_POSSIBLE_FILTERS
-from annotation.customFunctions.Utilities.file_manager import FileManager
+from annotation.helpers.Utilities.constants.constants import CACHE_KEY_ALL_POSSIBLE_FILTERS
+from annotation.helpers.Utilities.file_manager import FileManager
 
 
 class FilterValidation:
     """
-    Validation of the client's filters request.
+    validation of the client's filters request.
     """
 
     @staticmethod

@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from annotation.customFunctions.Utilities.datetime_functions import DateTimeFunctions
+from annotation.helpers.Utilities.datetime_functions import DateTimeFunctions
 
 
 class ContinuousStructure(ABC):

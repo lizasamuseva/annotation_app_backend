@@ -10,20 +10,20 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from annotation.customFunctions.annotation_manager import AnnotationManager
-from annotation.customFunctions.Utilities.Constants.supported_requests_types import \
+from annotation.helpers.annotation_manager import AnnotationManager
+from annotation.helpers.Utilities.constants.supported_requests_types import \
     RequestContentType
-from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_PARSED_RML, \
+from annotation.helpers.Utilities.constants.constants import CACHE_KEY_PARSED_RML, \
     CACHE_KEY_ALL_POSSIBLE_FILTERS, CACHE_KEY_REQUIRED_FILTERS, KEY_IN_REQUEST_REQUIRED_FILTERS, CACHE_KEY_EPPG_PATH
-from annotation.customFunctions.Utilities.custom_exceptions import MissingRMLKeyError, InvalidRMLStructure, \
+from annotation.helpers.Utilities.custom_exceptions import MissingRMLKeyError, InvalidRMLStructure, \
     EppgFileInvalid, SessionExpired
-from annotation.customFunctions.Utilities.file_manager import FileManager
-from annotation.customFunctions.Utilities.filters import Filters
-from annotation.customFunctions.Utilities.parser_rml import ParserRML
-from annotation.customFunctions.Utilities.Validation.FileValidation.eppg_validation import EPPGValidation
-from annotation.customFunctions.Utilities.Validation.FileValidation.rml_validation import RMLValidation
-from annotation.customFunctions.Utilities.Validation.filter_validation import FilterValidation
-from annotation.customFunctions.Utilities.Validation.request_validation import RequestValidation
+from annotation.helpers.Utilities.file_manager import FileManager
+from annotation.helpers.Utilities.filters import Filters
+from annotation.helpers.Utilities.parser_rml import ParserRML
+from annotation.helpers.Utilities.validation.FileValidation.eppg_validation import EPPGValidation
+from annotation.helpers.Utilities.validation.FileValidation.rml_validation import RMLValidation
+from annotation.helpers.Utilities.validation.filter_validation import FilterValidation
+from annotation.helpers.Utilities.validation.request_validation import RequestValidation
 from annotation.serializers import FiltersResponseSerializer
 
 logger = logging.getLogger(__name__)
@@ -75,7 +75,7 @@ class GetFiltersView(APIView):
                 description="Returns extracted filters",
                 schema=FiltersResponseSerializer()
             ),
-            400: "Bad Request - Validation error",
+            400: "Bad Request - validation error",
             422: "Unprocessable Entity - Invalid RML structure",
             500: "Internal Server Error",
         }
@@ -85,7 +85,7 @@ class GetFiltersView(APIView):
         # This will ensure a session is created
         request.session.modified = True
         try:
-            # Step 1: Validation
+            # Step 1: validation
             uploaded_file = RMLValidation(request).validate()
 
             # Step 2: Save the file temporarily in memory for use during the current request
@@ -202,7 +202,7 @@ class ProcessUserFiltersView(APIView):
         ),
         responses={
             204: 'Filters validated and stored successfully',
-            400: 'Bad Request - Validation error',
+            400: 'Bad Request - validation error',
             500: 'Internal Server Error'
         }
     )
@@ -266,14 +266,14 @@ class UploadEPPGFileView(APIView):
         ],
         responses={
             204: 'File uploaded and cached successfully',
-            400: 'Bad Request - Validation error',
+            400: 'Bad Request - validation error',
             422: 'Unprocessable Entity - Invalid or missing header',
             500: 'Internal Server Error',
         }
     )
     def post(self, request):
         try:
-            # Step 1: Validation
+            # Step 1: validation
             uploaded_file = EPPGValidation(request).validate()
 
             # Step 2: Persist the file across requests

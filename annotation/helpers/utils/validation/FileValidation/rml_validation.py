@@ -1,4 +1,4 @@
-from annotation.customFunctions.Utilities.Validation.FileValidation.base_file_validation import BaseFileValidation
+from annotation.helpers.Utilities.validation.FileValidation.base_file_validation import BaseFileValidation
 
 
 class RMLValidation(BaseFileValidation):

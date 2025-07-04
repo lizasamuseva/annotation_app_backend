@@ -9,14 +9,14 @@ django.setup()
 from rest_framework.test import APIClient
 import pytest
 
-from annotation.customFunctions.Utilities.Constants.constants import (
+from annotation.helpers.Utilities.constants.constants import (
     KEY_IN_REQUEST_RML,
     KEY_IN_REQUEST_EPPG,
     KEY_IN_REQUEST_REQUIRED_FILTERS,
 )
 
 """
-This file contains tests that imitate the whole annotation flow process, but for specific situations of the created structures: ContinuousStructures and EventsStructures 
+This file contains tests that imitate the whole annotation flow process, but for specific situations of the created structures: continuous_structures and EventsStructures 
 The whole tests of this file can be run with the CLI: pytest -s annotation/tests/IntegrationTests/test_annotation_flow.py (this method is faster)
 """
 

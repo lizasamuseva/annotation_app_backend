@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from annotation.customFunctions.Utilities.custom_exceptions import EppgFileInvalid
+from annotation.helpers.Utilities.custom_exceptions import EppgFileInvalid
 
 
 class DateTimeFunctions:
