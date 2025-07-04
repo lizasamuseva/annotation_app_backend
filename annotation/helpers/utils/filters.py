@@ -8,9 +8,9 @@ class Filters:
     Filters are stored as a dictionary and can be accessed via the getFilters() method.
     """
 
-    def __init__(self, parsed_RML):
+    def __init__(self, parsed_rml):
         self.filters = dict()
-        elements_roots = ParserRML.get_dictionary_of_root_elements(parsed_RML)
+        elements_roots = ParserRML.get_dictionary_of_root_elements(parsed_rml)
         self.fill_filters(elements_roots)
 
     def fill_filters(self, elements_roots):
@@ -29,14 +29,14 @@ class Filters:
         if len(events_root):
             if not isinstance(events_root, list):
                 events_root = [events_root]
-            self.initialize_filters_for_events(events_root)
+            self.initialize_events(events_root)
 
         # 2. Sleep Stages
         sleep_stages_root = elements_roots["SleepStages"]
         if len(sleep_stages_root):
             if not isinstance(sleep_stages_root, list):
                 sleep_stages_root = [sleep_stages_root]
-            self.initialize_filters_for_positions_and_stages(
+            self.initialize_stages(
                 sleep_stages_root,
                 "SleepStages",
                 "@Type")
@@ -46,7 +46,7 @@ class Filters:
         if len(body_positions_root):
             if not isinstance(body_positions_root, list):
                 body_positions_root = [body_positions_root]
-            self.initialize_filters_for_positions_and_stages(
+            self.initialize_stages(
                 body_positions_root,
                 "BodyPositions",
                 "@Position")
@@ -56,7 +56,7 @@ class Filters:
             raise ValueError(
                 "The RML file structure is invalid: roots <Event>, <UserStaging><NeuroAdultAASMStaging> and <BodyPositionItem> are empty.")
 
-    def initialize_filters_for_events(self, events):
+    def initialize_events(self, events):
         """
         Initializes filters for <Event> nodes, excluding those with Family="User".
 
@@ -76,7 +76,7 @@ class Filters:
                     self.filters.update({family_name: set()})
                 self.filters[family_name].add(event["@Type"])
 
-    def initialize_filters_for_positions_and_stages(self, root, family_name, type_name_specification):
+    def initialize_stages(self, root, family_name, type_name_specification):
         """
         Initializes filters for <NeuroAdultAASMStaging> and <BodyPositionItem> nodes.
 

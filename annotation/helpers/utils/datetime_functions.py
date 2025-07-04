@@ -1,20 +1,21 @@
 from datetime import datetime, timedelta
 
-from annotation.helpers.utils.custom_exceptions import EppgFileInvalid
+from annotation.helpers.utils.custom_exceptions import EPPGFileInvalid
 
 
 class DatetimeFunctions:
     """
-       Utility class for handling date and time conversions/synchronization related to ePPG and PSG files time difference.
+    Utility class for handling date and time conversions/synchronization related to ePPG and PSG files time difference.
     """
 
     @staticmethod
-    def convert_serial_number_to_date(serial_number_date):
+    def parse_excel(serial_number_date: int | float):
         """
-            Converts the date and time (in serial number) of the ePPG file into datetime format.
-            Further information about serial numbers is described in the LabChart documentation
-            https://www.adinstruments.com/support/knowledge-base/how-do-i-set-specific-start-time-and-date-imported-text-file
+        Converts the datetime (in Excel format) of the ePPG file into datetime format.
+        Further information about serial numbers is described in the LabChart documentation
+        https://www.adinstruments.com/support/knowledge-base/how-do-i-set-specific-start-time-and-date-imported-text-file
         """
+
         temp = datetime(1899, 12, 30)
 
         # Round to precision of 7 numbers after comma according to the Excel format
@@ -29,61 +30,64 @@ class DatetimeFunctions:
         return result.replace(microsecond=0)
 
     @staticmethod
-    def convert_datetime_from_rml(datetime_element):
+    def parse_rml(datetime_element: str):
         """
-            Converts the recording start date/time from PSG file into datetime format
+        Converts the recording start datetime from PSG file into datetime format
         """
+
         return datetime.strptime(datetime_element, "%Y-%m-%dT%H:%M:%S")
 
     @staticmethod
-    def compare_datetime_from_rml_and_ePPG(rml_datetime, ePPG_datetime):
+    def compare_datetime(rml_datetime: datetime, eppg_datetime: datetime):
         """
-            Compares the difference between PSG and ePPG start date/time recordings.
-            Returns positive value, if PSG recording started earlier than ePPG recording
-            Returns negative value, if ePPG started recording earlier
-            EppgFileInvalid is raised, when the difference between file's times is more than 8 hours
+        Compares the difference between PSG and ePPG start datetime recordings.
+        Returns positive value, if PSG recording started earlier than ePPG recording
+        Returns negative value, if ePPG started recording earlier
+        EPPGFileInvalid is raised, when the difference between file's times is more than 8 hours
         """
+
         maximum_possible_difference = timedelta(hours=8)
-        difference_between_datetime = rml_datetime - ePPG_datetime
+        difference_between_datetime = rml_datetime - eppg_datetime
         if abs(difference_between_datetime) >= maximum_possible_difference:
-            raise EppgFileInvalid("Review your files, they have the difference more than 8 hours.")
+            raise EPPGFileInvalid("Review your files, they have the difference more than 8 hours.")
         return difference_between_datetime.total_seconds()
 
     @staticmethod
-    def calculate_timedelta_plus_time_in_seconds(start, delta):
+    def time_plus_timedelta(start: int | float, delta: int | float | timedelta):
         """
-            Adjusts the synchronisation time delta to the event time from ePPG/PSG.
-            Outputs the synchronized time.
+        Adjusts the synchronization time delta to the event time from ePPG/PSG.
+        Outputs the synchronized time.
 
-            Example:
-                Input: start = 113, delta = 17.5
-                Output: 130.500
+        Example:
+            Input: start = 113, delta = 17.5
+            Output: 130.500
 
-            Time formats:
-            1) Time should be float number with precision 3
-            2) If the part after "." is 000, this part should be removed
+        Time formats:
+        1) Time should be float number with precision 3
+        2) If the part after "." is 000, this part should be removed
         """
+
         new_time_with_offset = str(round(float(start) + float(delta), 3))
-
         if new_time_with_offset.split('.')[1] == "0":
             new_time_with_offset = new_time_with_offset.split(".")[0]
         return new_time_with_offset
 
     @staticmethod
-    def convert_time_of_record_into_dict_form(time_of_record):
+    def as_dict(time_of_record: str):
         """
-            Converts a time record from ePPG into a dictionary form.
+        Converts a time record from ePPG into a dictionary form.
 
-            Example:
-                Input: "00:00:10.000"
-                Output:
-                {
-                    "hours": "00",
-                    "minutes": "00",
-                    "seconds": "10",
-                    "milliseconds": "000"
-                }
+        Example:
+            Input: "00:00:10.000"
+            Output:
+            {
+                "hours": "00",
+                "minutes": "00",
+                "seconds": "10",
+                "milliseconds": "000"
+            }
         """
+
         time_of_record_splat_semicolon = time_of_record.split(":")
         time_of_record_splat_point = time_of_record_splat_semicolon[2].split(".")
         return dict({
@@ -94,19 +98,21 @@ class DatetimeFunctions:
         })
 
     @staticmethod
-    def convert_time_of_occasion_into_seconds(time):
+    def as_seconds(time: str):
         """
-            This function converts the time of ePPG time record to seconds.
-            This is useful for comparison of event's time between ePPG and PSG records.
+        This function converts the time of ePPG time record to seconds.
+        This is useful for comparison of event's time between ePPG and PSG records.
 
-            Example:
-                Input: "00:00:10.000"
-                Output: "10"
+        Example:
+            Input: "00:00:10.000"
+            Output: "10"
         """
-        time_in_dict = DatetimeFunctions.convert_time_of_record_into_dict_form(time)
 
-        time_in_seconds = str(round(float(time_in_dict["hours"]) * 3600 + float(time_in_dict["minutes"]) * 60 + float(
-            time_in_dict["seconds"]) + float(time_in_dict["milliseconds"]) * 0.001, 3))
+        time_in_dict = DatetimeFunctions.as_dict(time)
+        time_in_seconds = str(round(
+            float(time_in_dict["hours"]) * 60 * 60 + float(time_in_dict["minutes"]) * 60 +
+            float(time_in_dict["seconds"]) + float(time_in_dict["milliseconds"]) * 0.001,
+            3))
 
         # Remove 118.0 milliseconds part, because in PSG this is present as 118
         if time_in_seconds.split(".")[1] == "0":

@@ -1,5 +1,7 @@
 import os
 from datetime import timedelta
+from typing import Dict
+
 from django.core.files.storage import FileSystemStorage
 from api import settings
 from .annotations_types.type_event.event_records_not_list import EventRecordsNotList
@@ -17,17 +19,17 @@ class AnnotationManager:
     Handles annotation of ePPG recordings using synchronized PSG (RML) data.
     """
 
-    def __init__(self, RML_dict, ePPG_path, filters):
+    def __init__(self, rml_dict: Dict, eppg_path: str, filters: Dict):
         """
         Initializes the ProcessAnnotations class.
 
         Args:
-            RML_dict (dict): Parsed RML structure containing annotations.
-            ePPG_path (str): Path to the raw ePPG file.
+            rml_dict (dict): Parsed RML structure containing annotations.
+            eppg_path (str): Path to the raw ePPG file.
             filters (dict): Filters specifying which structures or events to include.
         """
-        self.RML_dict = RML_dict
-        self.ePPG_path = ePPG_path
+        self.RML_dict = rml_dict
+        self.ePPG_path = eppg_path
         self.filters = filters
 
         self.roots_to_elements = ParserRML.get_dictionary_of_root_elements(self.RML_dict)
@@ -47,14 +49,14 @@ class AnnotationManager:
         If the RML started before the ePPG, adjusts the ePPG line times(eppg_offset.
         """
 
-        rml_datetime_recording = DatetimeFunctions.convert_datetime_from_rml(
+        rml_datetime_recording = DatetimeFunctions.parse_rml(
             ParserRML.get_nested_root_element(self.RML_dict, RECORD_TIME_ROOT_PATH)
         )
 
-        ePPG_datetime_recording = DatetimeFunctions.convert_serial_number_to_date(
+        ePPG_datetime_recording = DatetimeFunctions.parse_excel(
             float(date_time_line.split("=")[1].split("\n")[0]))
-        time_offset = DatetimeFunctions.compare_datetime_from_rml_and_ePPG(rml_datetime_recording,
-                                                                           ePPG_datetime_recording)
+        time_offset = DatetimeFunctions.compare_datetime(rml_datetime_recording,
+                                                         ePPG_datetime_recording)
 
         self.ePPG_offset_time = timedelta(seconds=0).total_seconds()
         self.RML_offset_time = timedelta(seconds=0).total_seconds()
@@ -134,9 +136,9 @@ class AnnotationManager:
                 for line in lines[2:]:
                     line_time = line.split("\t")[0]
                     # Convert the time of the record from ePPG and convert it into seconds
-                    line_time_in_seconds = DatetimeFunctions.convert_time_of_occasion_into_seconds(line_time)
+                    line_time_in_seconds = DatetimeFunctions.as_seconds(line_time)
                     # Calculate synchronized time of the record
-                    line_time_with_delta = DatetimeFunctions.calculate_timedelta_plus_time_in_seconds(
+                    line_time_with_delta = DatetimeFunctions.time_plus_timedelta(
                         line_time_in_seconds, self.ePPG_offset_time
                     )
                     string_comment = line

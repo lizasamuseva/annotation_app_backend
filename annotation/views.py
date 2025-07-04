@@ -16,7 +16,7 @@ from annotation.helpers.utils.constants.supported_requests_types import \
 from annotation.helpers.utils.constants.constants import CACHE_KEY_PARSED_RML, \
     CACHE_KEY_ALL_POSSIBLE_FILTERS, CACHE_KEY_REQUIRED_FILTERS, KEY_IN_REQUEST_REQUIRED_FILTERS, CACHE_KEY_EPPG_PATH
 from annotation.helpers.utils.custom_exceptions import MissingRMLKeyError, InvalidRMLStructure, \
-    EppgFileInvalid, SessionExpired
+    EPPGFileInvalid, SessionExpired
 from annotation.helpers.utils.file_manager import FileManager
 from annotation.helpers.utils.filters import Filters
 from annotation.helpers.utils.parser_rml import ParserRML
@@ -89,16 +89,16 @@ class GetFiltersView(APIView):
             uploaded_file = RMLValidation(request).validate()
 
             # Step 2: Save the file temporarily in memory for use during the current request
-            path_to_RML = FileManager.process_temporally_file_saving_within_request(uploaded_file)
+            path_to_rml = FileManager.within(uploaded_file)
 
             # Step 3: Parse file into dict form and save dict in cache
-            parsed_rml = ParserRML.parse_RML_to_dict(path_to_RML)
-            FileManager.save_entity_to_the_cache(request, CACHE_KEY_PARSED_RML, parsed_rml)
+            parsed_rml = ParserRML.parse_RML_to_dict(path_to_rml)
+            FileManager.save_cache(request, CACHE_KEY_PARSED_RML, parsed_rml)
 
             # Step 4: Extract the filters and save in cache
             all_possible_filters = Filters(parsed_rml)
-            FileManager.save_entity_to_the_cache(request, CACHE_KEY_ALL_POSSIBLE_FILTERS,
-                                                 all_possible_filters.get_filters())
+            FileManager.save_cache(request, CACHE_KEY_ALL_POSSIBLE_FILTERS,
+                                   all_possible_filters.get_filters())
 
             return Response({'result': {"filters": all_possible_filters.get_filters()}}, status=status.HTTP_200_OK)
 
@@ -212,7 +212,7 @@ class ProcessUserFiltersView(APIView):
             required_filters = self.validate_request_filters(request)
 
             # Step 2: Save required filters to the cache
-            FileManager.save_entity_to_the_cache(request, CACHE_KEY_REQUIRED_FILTERS, required_filters)
+            FileManager.save_cache(request, CACHE_KEY_REQUIRED_FILTERS, required_filters)
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         except ValidationError as ve:
@@ -277,10 +277,10 @@ class UploadEPPGFileView(APIView):
             uploaded_file = EPPGValidation(request).validate()
 
             # Step 2: Persist the file across requests
-            EPPG_path = FileManager.process_persistent_file_saving_across_requests(uploaded_file)
+            EPPG_path = FileManager.across(uploaded_file)
 
             # Step 3: Save the path into the cache
-            FileManager.save_entity_to_the_cache(request, CACHE_KEY_EPPG_PATH, EPPG_path)
+            FileManager.save_cache(request, CACHE_KEY_EPPG_PATH, EPPG_path)
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -290,7 +290,7 @@ class UploadEPPGFileView(APIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
         # Catch Error if the EPPG file doesn't contain appropriate header/previous request is expired
-        except (EppgFileInvalid, SessionExpired) as ee:
+        except (EPPGFileInvalid, SessionExpired) as ee:
             return Response({'error': str(ee)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
         except Exception as e:
@@ -347,10 +347,10 @@ class AnnotateView(APIView):
         output_file_path = None
         try:
             # Get user oriented information
-            RML_dict = FileManager.get_entity_from_cache(request, CACHE_KEY_PARSED_RML)
+            RML_dict = FileManager.get_cache(request, CACHE_KEY_PARSED_RML)
 
-            EPPG_path = FileManager.get_entity_from_cache(request, CACHE_KEY_EPPG_PATH)
-            filters = FileManager.get_entity_from_cache(request, CACHE_KEY_REQUIRED_FILTERS)
+            EPPG_path = FileManager.get_cache(request, CACHE_KEY_EPPG_PATH)
+            filters = FileManager.get_cache(request, CACHE_KEY_REQUIRED_FILTERS)
 
             # Annotate the file
             annotation_manager = AnnotationManager(RML_dict, EPPG_path, filters)
@@ -373,7 +373,7 @@ class AnnotateView(APIView):
                 'error': SessionExpired
             }, status=status.HTTP_409_CONFLICT)
 
-        except EppgFileInvalid as error:
+        except EPPGFileInvalid as error:
             return Response({
                 'error': str(error)
             }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)

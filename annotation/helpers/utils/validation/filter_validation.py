@@ -31,7 +31,7 @@ class FilterValidation:
             Raises:
                 ValidationError: if filter or its category is unrecognizable.
         """
-        all_filters = FileManager.get_entity_from_cache(request, CACHE_KEY_ALL_POSSIBLE_FILTERS)
+        all_filters = FileManager.get_cache(request, CACHE_KEY_ALL_POSSIBLE_FILTERS)
 
         if not all_filters:
             raise ValidationError("Filter cache is empty or expired.")

@@ -11,5 +11,4 @@ class RMLValidation(BaseFileValidation):
         self.request = request
 
     def validate(self):
-        uploaded_file = self.base_file_validation(self.request)
-        return uploaded_file
+        return self.base_file_validation(self.request)

@@ -1,5 +1,5 @@
 from annotation.helpers.utils.validation.FileValidation.base_file_validation import BaseFileValidation
-from annotation.helpers.utils.custom_exceptions import EppgFileInvalid
+from annotation.helpers.utils.custom_exceptions import EPPGFileInvalid
 
 
 class EPPGValidation(BaseFileValidation):
@@ -33,7 +33,7 @@ class EPPGValidation(BaseFileValidation):
             lines.append(line.decode('utf-8').strip())
 
         if len(lines) < 3:
-            raise EppgFileInvalid("ePPG file is too short.")
+            raise EPPGFileInvalid("ePPG file is too short.")
 
         # Check the first two lines for a header
         for line in lines[:1]:
@@ -42,13 +42,13 @@ class EPPGValidation(BaseFileValidation):
                     # Check whether the line contains the date/time in a number form
                     float(line.split("=")[1])
                 except (IndexError, ValueError):
-                    raise EppgFileInvalid("Valid header not found in the first two lines.")
+                    raise EPPGFileInvalid("Valid header not found in the first two lines.")
             else:
-                raise EppgFileInvalid("ePPG file doesn't contain required header.")
+                raise EPPGFileInvalid("ePPG file doesn't contain required header.")
 
         # Check the third line for a valid record
         if not lines[2].startswith("0"):
-            raise EppgFileInvalid("Your ePPG file doesn't contain valid records.")
+            raise EPPGFileInvalid("Your ePPG file doesn't contain valid records.")
         # Reset pointer of the file to start
         uploaded_file.seek(0)
 

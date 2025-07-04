@@ -14,11 +14,12 @@ class FileManager:
     """
 
     @staticmethod
-    def process_temporally_file_saving_within_request(uploaded_file):
+    def within(uploaded_file):
         """
         Temporarily stores the uploaded file for use within the scope of a single request.
         """
-        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.rml')
+
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".rml")
         try:
             for chunk in uploaded_file.chunks():
                 temp_file.write(chunk)
@@ -29,7 +30,7 @@ class FileManager:
             raise e
 
     @staticmethod
-    def process_persistent_file_saving_across_requests(uploaded_file):
+    def across(uploaded_file):
         """
         Stores the uploaded file in MEDIA root folder to access file across multiple requests.
         """
@@ -39,23 +40,24 @@ class FileManager:
         return fs.path(filename)
 
     @staticmethod
-    def create_and_save_file_in_media(content, filename, subdir="uploads"):
+    def create(content, filename, subdir="uploads"):
         """
         Creates a new file (e.g. annotated version of the ePPG file) and stores it in MEDIA folder.
         """
 
         fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, subdir))
 
-        with fs.open(filename, 'w') as file:
+        with fs.open(filename, "w") as file:
             file.write(content)
 
         return fs.path(filename)
 
     @staticmethod
-    def save_entity_to_the_cache(request, cache_key_description, entity_to_save):
+    def save_cache(request, cache_key_description, entity_to_save):
         """
         Caches annotation-related data and links to the user session for later retrieval.
         """
+
         # Save cache key if it is first initialization
         if not request.session.session_key:
             request.session.save()
@@ -68,13 +70,14 @@ class FileManager:
         request.session[cache_key_description] = generated_cache_key
 
     @staticmethod
-    def get_entity_from_cache(request, cache_key_description):
+    def get_cache(request, cache_key_description):
         """
         Returns the entity connected to the session-cache key.
 
         Raises:
             SessionExpired: if the session key is expired.
         """
+
         cache_key = request.session.get(cache_key_description)
         if cache_key:
             entity = cache.get(cache_key)
@@ -87,6 +90,7 @@ class FileManager:
         """
         Deletes the specified file from the MEDIA folder.
         """
+
         try:
             os.remove(file_path)
         except FileNotFoundError:
