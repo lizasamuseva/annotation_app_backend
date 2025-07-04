@@ -29,6 +29,29 @@ from annotation.serializers import FiltersResponseSerializer
 logger = logging.getLogger(__name__)
 
 
+class HelloWorldView(APIView):
+    """
+    Responds with "Hello world!"
+
+    Responses:
+        - 200 OK:
+            Response successful
+    """
+
+    parser_class = [MultiPartParser]
+
+    @swagger_auto_schema(
+        operation_description="""
+    Respond with "Hello world!"
+    """,
+        responses={
+            200: "Hello world!"
+        }
+    )
+    def get(self, request):
+        return Response("Hello world!")
+
+
 class GetFiltersView(APIView):
     """
     Processes an uploaded RML file to extract all available filters.
@@ -53,7 +76,7 @@ class GetFiltersView(APIView):
 
     parser_classes = [MultiPartParser]
 
-    # LOCALHOST: https://localhost:8000/static/sample.rml
+    # localhost: https://localhost:8000/static/sample.rml
     @swagger_auto_schema(
         operation_description="""
         Upload an RML (PSG) file using the form key `RML_src`.
@@ -252,7 +275,7 @@ class UploadEPPGFileView(APIView):
 
     parser_classes = [MultiPartParser]
 
-    # Localhost: http://localhost:8000/static/sample_eppg.txt
+    # localhost: http://localhost:8000/static/sample_eppg.txt
     @swagger_auto_schema(
         operation_description="""
         Upload an ePPG file under the form key `EPPG_src`. 

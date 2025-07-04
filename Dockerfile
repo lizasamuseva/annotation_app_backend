@@ -9,4 +9,4 @@ RUN python3 manage.py migrate
 RUN pip3 install daphne
 
 EXPOSE 8000
-ENTRYPOINT ["daphne", "api.asgi:application"]
+ENTRYPOINT ["daphne", "api.asgi:application", "--bind", "0.0.0.0"]

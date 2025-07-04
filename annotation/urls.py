@@ -5,8 +5,7 @@ from drf_yasg import openapi
 from django.conf.urls.static import static
 
 from api import settings
-from .views import GetFiltersView, ProcessUserFiltersView, UploadEPPGFileView, AnnotateView
-
+from .views import GetFiltersView, ProcessUserFiltersView, UploadEPPGFileView, AnnotateView, HelloWorldView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -21,6 +20,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    path("", HelloWorldView.as_view(), name="hello_world"),
     path("docs/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("filters/", GetFiltersView.as_view(), name='get_filters'),
     path('filters/selected/', ProcessUserFiltersView.as_view(), name='process_filters'),
