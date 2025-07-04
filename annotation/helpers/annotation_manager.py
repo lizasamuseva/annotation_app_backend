@@ -122,12 +122,12 @@ class AnnotationManager:
 
         fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT))
 
-        with open(self.ePPG_path, 'r') as f:
+        with open(self.ePPG_path, "r") as f:
             lines = f.readlines()
             self.calculate_time_offset(lines[0])
             self.structures_initialization()
 
-            new_file_path = os.path.join(fs.location, 'annotated_file.txt')
+            new_file_path = os.path.join(fs.location, "annotated_file.txt")
 
             with open(new_file_path, 'w') as out_file:
 
@@ -146,9 +146,9 @@ class AnnotationManager:
                     # Append annotations to the current line if the corresponding structure is initialized.
                     if self.events_structure:
                         if isinstance(self.events_structure, EventRecordsList):
-                            string_comment = self.events_structure.write_START_events_into_comment_line(
+                            string_comment = self.events_structure.write_start_events_into_comment_line(
                                 line_time_with_delta, string_comment)
-                            string_comment = self.events_structure.write_END_events_into_comment_line(
+                            string_comment = self.events_structure.write_end_events_into_comment_line(
                                 line_time_with_delta, string_comment)
                         else:
                             string_comment = self.events_structure.write_into_comments(line_time_with_delta,

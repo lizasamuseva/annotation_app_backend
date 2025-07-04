@@ -5,6 +5,7 @@ class Event:
     """
     This class stores all information about node <Event>.
     """
+    name: str = ""
 
     def __init__(self, event_info, rml_offset_time):
         """
@@ -16,17 +17,16 @@ class Event:
         self.non_synchronised_onset_time = event_info["@Start"]
         self.synchronised_onset_time = DatetimeFunctions.time_plus_timedelta(
             self.non_synchronised_onset_time, rml_offset_time)
-        self.end_time = DatetimeFunctions.time_plus_timedelta(self.synchronised_onset_time,
-                                                              event_info["@Duration"])
+        self.end_time = DatetimeFunctions.time_plus_timedelta(self.synchronised_onset_time, event_info["@Duration"])
 
     def create_event_name(self, event):
         """
-        Generates a descriptive event name using '@Family', '@Type', and optionally '@EdfSignal' and other custom parameters.
+        Generates a descriptive event name using "@Family", "@Type", and optionally "@EdfSignal" and other custom parameters.
         """
 
-        self.name = event['@Family'] + ": " + event['@Type']
+        self.name = event["@Family"] + ": " + event["@Type"]
         if "@EdfSignal" in event:
-            self.name = self.name + " (" + event['@EdfSignal'] + ")"
+            self.name = self.name + " (" + event["@EdfSignal"] + ")"
         for parameter in event.keys():
             if "@" not in parameter:
-                self.name = self.name + f'({parameter}: {event[parameter]})'
+                self.name = self.name + f"({parameter}: {event[parameter]})"

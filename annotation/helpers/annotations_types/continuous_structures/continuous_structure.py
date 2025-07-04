@@ -50,7 +50,7 @@ class ContinuousStructureList(ContinuousStructure):
     Handles annotation logic for RML nodes that appear as lists (e.g., multiple SleepStages or BodyPositions).
     """
 
-    def __init__(self, root, ePPG_offset_time, filters, element_property_name):
+    def __init__(self, root, eppg_offset_time, filters, element_property_name):
         super().__init__(root)
         self.root_length = len(self.root)
         self.current_number_of_element = 0
@@ -60,7 +60,7 @@ class ContinuousStructureList(ContinuousStructure):
         # Skip the elements while the event wasn't last, if they were recorded only in RML (RML recording started earlier, but ePPG recording later)
         # OR the type isn't required by client's filters
         while (self.current_number_of_element < self.root_length and
-               (ePPG_offset_time > float(self.root[self.current_number_of_element]["@Start"]) or
+               (eppg_offset_time > float(self.root[self.current_number_of_element]["@Start"]) or
                 self.root[self.current_number_of_element][self.element_property_name] not in self.filters)):
             self.current_number_of_element += 1
 
@@ -92,14 +92,14 @@ class ContinuousStructureNotList(ContinuousStructure):
     Handles annotation logic for RML nodes that appear as a single element.
     """
 
-    def __init__(self, root, ePPG_offset_time, element_property_name):
+    def __init__(self, root, eppg_offset_time, element_property_name):
         super().__init__(root)
         self.element_is_recorded = False
         self.element_was_skipped = False
         self.element_property_name = element_property_name
 
         # Skip the element, if it was recorded earlier than the ePPG recordings were started
-        if float(self.root["@Start"]) < ePPG_offset_time:
+        if float(self.root["@Start"]) < eppg_offset_time:
             self.element_was_skipped = True
 
     def edit_comment(self, string_comment, element_group):

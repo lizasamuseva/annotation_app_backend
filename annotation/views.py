@@ -20,8 +20,8 @@ from annotation.helpers.utils.custom_exceptions import MissingRMLKeyError, Inval
 from annotation.helpers.utils.file_manager import FileManager
 from annotation.helpers.utils.filters import Filters
 from annotation.helpers.utils.parser_rml import ParserRML
-from annotation.helpers.utils.validation.FileValidation.eppg_validation import EPPGValidation
-from annotation.helpers.utils.validation.FileValidation.rml_validation import RMLValidation
+from annotation.helpers.utils.validation.file_validation.eppg_validation import EPPGValidation
+from annotation.helpers.utils.validation.file_validation.rml_validation import RMLValidation
 from annotation.helpers.utils.validation.filter_validation import FilterValidation
 from annotation.helpers.utils.validation.request_validation import RequestValidation
 from annotation.serializers import FiltersResponseSerializer
@@ -63,11 +63,11 @@ class GetFiltersView(APIView):
         """,
         manual_parameters=[
             openapi.Parameter(
-                name='RML_src',
+                name="RML_src",
                 in_=openapi.IN_FORM,
                 type=openapi.TYPE_FILE,
                 required=True,
-                description='RML (PSG) file to upload'
+                description="RML (PSG) file to upload"
             )
         ],
         responses={
@@ -92,7 +92,7 @@ class GetFiltersView(APIView):
             path_to_rml = FileManager.within(uploaded_file)
 
             # Step 3: Parse file into dict form and save dict in cache
-            parsed_rml = ParserRML.parse_RML_to_dict(path_to_rml)
+            parsed_rml = ParserRML.parse_rml_to_dict(path_to_rml)
             FileManager.save_cache(request, CACHE_KEY_PARSED_RML, parsed_rml)
 
             # Step 4: Extract the filters and save in cache
@@ -100,22 +100,22 @@ class GetFiltersView(APIView):
             FileManager.save_cache(request, CACHE_KEY_ALL_POSSIBLE_FILTERS,
                                    all_possible_filters.get_filters())
 
-            return Response({'result': {"filters": all_possible_filters.get_filters()}}, status=status.HTTP_200_OK)
+            return Response({"result": {"filters": all_possible_filters.get_filters()}}, status=status.HTTP_200_OK)
 
         # Catch any validation error
         except ValidationError as ve:
-            return Response({'error': str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)},
+            return Response({"error": str(ve.detail[0]) if isinstance(ve.detail, list) else str(ve.detail)},
                             status=status.HTTP_400_BAD_REQUEST)
 
         # Catch the Error, if the RML doesn't contain the keys in dictionary, which are required for further processing
         # Or whether the structure of the rml doesn't correspond to XML
         except (MissingRMLKeyError, InvalidRMLStructure) as invalidError:
-            return Response({'error': str(invalidError)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            return Response({"error": str(invalidError)}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
         except Exception as e:
             logger.error(f"Unexpected error in GetFiltersView.", exc_info=True)
             return Response({
-                'error': 'An unexpected error occurred. Please contact support.'
+                "error": "An unexpected error occurred. Please contact support.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         finally:

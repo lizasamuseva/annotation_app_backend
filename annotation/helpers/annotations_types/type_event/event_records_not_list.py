@@ -16,14 +16,14 @@ class EventRecordsNotList:
     - isEndTimeRecorded (bool): Tracks whether the end time annotation has been written.
     """
 
-    def __init__(self, event_root, rml_offset_time, ePPG_offset_time):
+    def __init__(self, event_root, rml_offset_time, eppg_offset_time):
         self.current_event = Event(event_root, rml_offset_time)
         self.is_event_skipped = False
         self.is_onset_time_recorded = False
         self.is_end_time_recorded = False
 
         # Skip event if it's before the ePPG start
-        if float(self.current_event.synchronised_onset_time) < ePPG_offset_time:
+        if float(self.current_event.synchronised_onset_time) < eppg_offset_time:
             self.is_event_skipped = True
 
     def edit_comment(self, string_comment, mode):

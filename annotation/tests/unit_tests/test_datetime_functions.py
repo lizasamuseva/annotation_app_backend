@@ -72,5 +72,5 @@ class DateTimeTests(unittest.TestCase):
                          "Review your files, they have the difference more than 8 hours.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

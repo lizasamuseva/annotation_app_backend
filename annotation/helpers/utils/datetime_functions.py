@@ -68,7 +68,7 @@ class DatetimeFunctions:
         """
 
         new_time_with_offset = str(round(float(start) + float(delta), 3))
-        if new_time_with_offset.split('.')[1] == "0":
+        if new_time_with_offset.split(".")[1] == "0":
             new_time_with_offset = new_time_with_offset.split(".")[0]
         return new_time_with_offset
 

@@ -6,8 +6,8 @@ class RequestContentType(Enum):
     Supported HTTP request content types.
     """
 
-    FILE = 'multipart/form-data'
-    JSON = 'application/json'
+    FILE = "multipart/form-data"
+    JSON = "application/json"
 
 
 class MIMETypes(Enum):
@@ -15,8 +15,8 @@ class MIMETypes(Enum):
     Expected MIME types for specific file uploads.
     """
 
-    RML = 'application/octet-stream'
-    EPPG = 'text/plain'
+    RML = "application/octet-stream"
+    EPPG = "text/plain"
 
 
 class FilesExtensions(Enum):

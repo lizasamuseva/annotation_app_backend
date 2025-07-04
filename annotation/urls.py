@@ -11,7 +11,7 @@ from .views import GetFiltersView, ProcessUserFiltersView, UploadEPPGFileView, A
 schema_view = get_schema_view(
     openapi.Info(
         title="Annotation API",
-        default_version='v1',
+        default_version="v1",
         description="This API annotates the ePPG file on the base of PSG recordings. To test the following requests with your data (and finally annotate the file), you should follow this sequence: /filters/, /filters/selected/, /files/eppg/, /annotate/",
     ),
     public=True,
@@ -21,8 +21,8 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('filters/', GetFiltersView.as_view(), name='get_filters'),
+    path("docs/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    path("filters/", GetFiltersView.as_view(), name='get_filters'),
     path('filters/selected/', ProcessUserFiltersView.as_view(), name='process_filters'),
     path('files/eppg/', UploadEPPGFileView.as_view(), name='upload_eppg'),
     path('annotate/', AnnotateView.as_view(), name='annotate'),

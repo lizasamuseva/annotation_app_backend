@@ -25,7 +25,7 @@ class EventRecordsList:
     - array_START_events: Events that started at the same timestamp
     """
 
-    def __init__(self, root, rml_offset_time, ePPG_offset_time, events_filters):
+    def __init__(self, root, rml_offset_time, eppg_offset_time, events_filters):
         self.events_records = root
         self.length_events_records = len(self.events_records)
         self.no_events_left_to_observe_from_file = False
@@ -36,17 +36,17 @@ class EventRecordsList:
         self.filters = events_filters
 
         # Skip all unwanted events and initialize the working one
-        if self.skip_events_before_start_of_ePPG(ePPG_offset_time):
+        if self.skip_events_before_start(eppg_offset_time):
             if self.skip_filter_oriented_events():
                 self.array_START_events = []
                 # Find the further events
                 self.find_events_with_the_same_time_start()
 
-    def skip_events_before_start_of_ePPG(self, ePPG_offset_time):
+    def skip_events_before_start(self, eppg_offset_time):
         """
         Skips events that started before the ePPG offset time.
         """
-        while float(self.events_records[self.current_event_sequence_number]["@Start"]) < ePPG_offset_time:
+        while float(self.events_records[self.current_event_sequence_number]["@Start"]) < eppg_offset_time:
             self.current_event_sequence_number += 1
             if self.length_events_records == self.current_event_sequence_number:
                 self.no_events_left_to_observe_from_file = True
@@ -61,15 +61,16 @@ class EventRecordsList:
         """
 
         family = self.events_records[self.current_event_sequence_number]["@Family"]
-        type = self.events_records[self.current_event_sequence_number]["@Type"]
-        while (family not in self.filters) or (type not in self.filters.get(family, [])):
+        # "type" is a reserved keyword - typ instead
+        typ = self.events_records[self.current_event_sequence_number]["@Type"]
+        while (family not in self.filters) or (typ not in self.filters.get(family, [])):
             self.current_event_sequence_number += 1
             if self.length_events_records == self.current_event_sequence_number:
                 self.no_events_left_to_observe_from_file = True
                 return False
 
             family = self.events_records[self.current_event_sequence_number]["@Family"]
-            type = self.events_records[self.current_event_sequence_number]["@Type"]
+            typ = self.events_records[self.current_event_sequence_number]["@Type"]
         # Initialize the new event to proceed further
         self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
         return True
@@ -80,7 +81,7 @@ class EventRecordsList:
         Updates START events array and waiting dictionary accordingly.
         """
         # Initialize both array_START_events and waiting_dictionary_with_end_event_times with first values
-        self.update_START_events_array()
+        self.update_start_events_array()
         self.update_end_events_waiting_dictionary()
 
         # Find the events that have the same START time as the already filled one
@@ -93,9 +94,10 @@ class EventRecordsList:
 
             # Skip if the event wasn't requested in the filters
             family = self.events_records[self.current_event_sequence_number]["@Family"]
-            type = self.events_records[self.current_event_sequence_number]["@Type"]
+            # ditto
+            typ = self.events_records[self.current_event_sequence_number]["@Type"]
 
-            if (family not in self.filters) and (type not in self.filters.get(family, {})):
+            if (family not in self.filters) and (typ not in self.filters.get(family, {})):
                 # logger.error(self.filters[family])
                 self.current_event_sequence_number += 1
                 continue
@@ -103,14 +105,14 @@ class EventRecordsList:
             self.current_event = Event(self.events_records[self.current_event_sequence_number], self.rml_offset_time)
 
             # Add to the structures (array_START and waiting_dictionary) with the new Event
-            self.update_START_events_array()
+            self.update_start_events_array()
             self.update_end_events_waiting_dictionary()
 
             # Set pointer to the next <Event>
             self.current_event_sequence_number += 1
 
     # ----------------------------------------Updating methods----------------------------------------------------------
-    def update_START_events_array(self):
+    def update_start_events_array(self):
         """
         Fills the array_START_events with the start annotations' names.
         """
@@ -135,7 +137,8 @@ class EventRecordsList:
             # Convert single element to list and append the new name
             self.waiting_dictionary_with_end_event_times[end_time] = [existing, end_name]
 
-    def make_list_instance(self, element):
+    @staticmethod
+    def make_list_instance(element):
         """
         Transforms one element into the list with that element.
         """
@@ -146,13 +149,13 @@ class EventRecordsList:
 
     # ----------------------------------------Writing methods into the file---------------------------------------------
 
-    def write_START_events_into_comment_line(self, line_time_in_seconds, string_comment):
+    def write_start_events_into_comment_line(self, line_time_in_seconds, string_comment):
         """
         After the checking whether the writing of the annotation appendix is possible, append the annotations to the line from ePPG.
         Initializes the further events to process.
         Returns either the annotated or raw string.
         """
-        if self.check_if_write_START_events_is_possible(line_time_in_seconds):
+        if self.check_if_write_start_events_is_possible(line_time_in_seconds):
             string_comment = string_comment.split("\n")[0]
 
             # Append all OLD events to the comment, which starts at the same start time
@@ -174,7 +177,7 @@ class EventRecordsList:
 
         return string_comment
 
-    def check_if_write_START_events_is_possible(self, line_time_in_seconds):
+    def check_if_write_start_events_is_possible(self, line_time_in_seconds):
         """
         Checks whether the Events did not run out of during the previous write_START_events_into_comment_line.
         Checks whether the line_time_in_seconds from the ePPG is the same as the synchronized time of the START Events.
@@ -183,7 +186,7 @@ class EventRecordsList:
             return True
         return False
 
-    def write_END_events_into_comment_line(self, line_time_in_seconds, string_comment):
+    def write_end_events_into_comment_line(self, line_time_in_seconds, string_comment):
         """
         Retrieves the END events associated with current time from ePPG and writes them to the comment line.
         Returns either the annotated or raw string.
