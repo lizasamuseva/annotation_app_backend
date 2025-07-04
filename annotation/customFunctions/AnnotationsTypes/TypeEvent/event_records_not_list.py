@@ -1,7 +1,7 @@
-from annotation.customFunctions.AnnotationsTypes.TypeEvent.Event import Event
+from annotation.customFunctions.AnnotationsTypes.TypeEvent.event import Event
 from zope.interface import implementer
 
-from .EventsRecordsStructure import EventsRecordsStructure
+from .event_records_structure import EventsRecordsStructure
 
 
 @implementer(EventsRecordsStructure)

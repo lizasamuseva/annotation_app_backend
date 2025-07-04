@@ -4,7 +4,7 @@ import tempfile
 from django.core.cache import cache
 from django.core.files.storage import FileSystemStorage
 
-from annotation.customFunctions.Utilities.CustomExceptions import SessionExpired
+from annotation.customFunctions.Utilities.custom_exceptions import SessionExpired
 from api import settings
 
 

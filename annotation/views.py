@@ -10,20 +10,20 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from annotation.customFunctions.AnnotationManager import AnnotationManager
-from annotation.customFunctions.Utilities.Constants.SupportedRequestsTypes import \
+from annotation.customFunctions.annotation_manager import AnnotationManager
+from annotation.customFunctions.Utilities.Constants.supported_requests_types import \
     RequestContentType
 from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_PARSED_RML, \
     CACHE_KEY_ALL_POSSIBLE_FILTERS, CACHE_KEY_REQUIRED_FILTERS, KEY_IN_REQUEST_REQUIRED_FILTERS, CACHE_KEY_EPPG_PATH
-from annotation.customFunctions.Utilities.CustomExceptions import MissingRMLKeyError, InvalidRMLStructure, \
+from annotation.customFunctions.Utilities.custom_exceptions import MissingRMLKeyError, InvalidRMLStructure, \
     EppgFileInvalid, SessionExpired
-from annotation.customFunctions.Utilities.FileManager import FileManager
-from annotation.customFunctions.Utilities.Filters import Filters
-from annotation.customFunctions.Utilities.ParserRML import ParserRML
-from annotation.customFunctions.Utilities.Validation.FileValidation.EPPGValidation import EPPGValidation
-from annotation.customFunctions.Utilities.Validation.FileValidation.RMLValidation import RMLValidation
-from annotation.customFunctions.Utilities.Validation.FilterValidation import FilterValidation
-from annotation.customFunctions.Utilities.Validation.RequestValidation import RequestValidation
+from annotation.customFunctions.Utilities.file_manager import FileManager
+from annotation.customFunctions.Utilities.filters import Filters
+from annotation.customFunctions.Utilities.parser_rml import ParserRML
+from annotation.customFunctions.Utilities.Validation.FileValidation.eppg_validation import EPPGValidation
+from annotation.customFunctions.Utilities.Validation.FileValidation.rml_validation import RMLValidation
+from annotation.customFunctions.Utilities.Validation.filter_validation import FilterValidation
+from annotation.customFunctions.Utilities.Validation.request_validation import RequestValidation
 from annotation.serializers import FiltersResponseSerializer
 
 logger = logging.getLogger(__name__)

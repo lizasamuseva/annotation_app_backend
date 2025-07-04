@@ -1,9 +1,9 @@
 import logging
 
-from .Event import Event
+from .event import Event
 from zope.interface import implementer
 
-from .EventsRecordsStructure import EventsRecordsStructure
+from .event_records_structure import EventsRecordsStructure
 
 logger = logging.getLogger(__name__)
 

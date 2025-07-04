@@ -2,13 +2,13 @@ import os
 from datetime import timedelta
 from django.core.files.storage import FileSystemStorage
 from api import settings
-from .AnnotationsTypes.TypeEvent.EventRecordsNotList import EventRecordsNotList
+from .AnnotationsTypes.TypeEvent.event_records_not_list import EventRecordsNotList
 from .Utilities.Constants.constants import RECORD_TIME_ROOT_PATH
-from .Utilities.CustomExceptions import SessionExpired
-from .Utilities.DateTimeFunctions import DateTimeFunctions
-from .Utilities.ParserRML import ParserRML
-from .AnnotationsTypes.TypeEvent.EventRecordsList import EventRecordsList
-from .AnnotationsTypes.ContinuousStructures.ContinuousStructure import ContinuousStructureList, \
+from .Utilities.custom_exceptions import SessionExpired
+from .Utilities.datetime_functions import DateTimeFunctions
+from .Utilities.parser_rml import ParserRML
+from .AnnotationsTypes.TypeEvent.event_records_list import EventRecordsList
+from .AnnotationsTypes.ContinuousStructures.continuous_structure import ContinuousStructureList, \
     ContinuousStructureNotList
 
 

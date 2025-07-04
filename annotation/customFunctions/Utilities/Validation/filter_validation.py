@@ -1,7 +1,7 @@
 from rest_framework.exceptions import ValidationError
 
 from annotation.customFunctions.Utilities.Constants.constants import CACHE_KEY_ALL_POSSIBLE_FILTERS
-from annotation.customFunctions.Utilities.FileManager import FileManager
+from annotation.customFunctions.Utilities.file_manager import FileManager
 
 
 class FilterValidation:

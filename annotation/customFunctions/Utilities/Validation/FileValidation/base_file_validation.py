@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from rest_framework.exceptions import ValidationError
-from annotation.customFunctions.Utilities.Constants.SupportedRequestsTypes import RequestContentType, MIMETypes, \
+from annotation.customFunctions.Utilities.Constants.supported_requests_types import RequestContentType, MIMETypes, \
     FilesExtensions
 from annotation.customFunctions.Utilities.Constants.constants import KEY_IN_REQUEST_RML, KEY_IN_REQUEST_EPPG
-from annotation.customFunctions.Utilities.Validation.RequestValidation import RequestValidation
+from annotation.customFunctions.Utilities.Validation.request_validation import RequestValidation
 
 
 class BaseFileValidation(ABC):

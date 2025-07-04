@@ -1,4 +1,4 @@
-from annotation.customFunctions.Utilities.ParserRML import ParserRML
+from annotation.customFunctions.Utilities.parser_rml import ParserRML
 
 
 class Filters:

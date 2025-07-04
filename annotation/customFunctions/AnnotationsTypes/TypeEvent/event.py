@@ -1,4 +1,4 @@
-from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeFunctions
+from annotation.customFunctions.Utilities.datetime_functions import DateTimeFunctions
 
 
 class Event:

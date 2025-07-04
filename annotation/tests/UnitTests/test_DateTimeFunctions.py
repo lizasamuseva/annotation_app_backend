@@ -1,8 +1,8 @@
 import unittest
 from datetime import datetime, timedelta
 
-from annotation.customFunctions.Utilities.CustomExceptions import EppgFileInvalid
-from annotation.customFunctions.Utilities.DateTimeFunctions import DateTimeFunctions
+from annotation.customFunctions.Utilities.custom_exceptions import EppgFileInvalid
+from annotation.customFunctions.Utilities.datetime_functions import DateTimeFunctions
 
 
 class DateTimeTests(unittest.TestCase):
