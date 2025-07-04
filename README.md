@@ -1,4 +1,4 @@
-# Annotation APP Backend
+# Annotation App Backend
 
 A Django backend for the EPPG / RML annotation app.
 
