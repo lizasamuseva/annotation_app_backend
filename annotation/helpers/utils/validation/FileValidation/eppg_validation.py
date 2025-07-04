@@ -1,5 +1,5 @@
-from annotation.helpers.Utilities.validation.FileValidation.base_file_validation import BaseFileValidation
-from annotation.helpers.Utilities.custom_exceptions import EppgFileInvalid
+from annotation.helpers.utils.validation.FileValidation.base_file_validation import BaseFileValidation
+from annotation.helpers.utils.custom_exceptions import EppgFileInvalid
 
 
 class EPPGValidation(BaseFileValidation):

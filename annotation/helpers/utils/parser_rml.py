@@ -3,9 +3,9 @@ from xml.etree.ElementTree import ParseError
 import xmltodict
 import xml.etree.ElementTree as ET
 
-from annotation.helpers.Utilities.constants.constants import EVENTS_ROOT_PATH, SLEEP_STAGES_ROOT_PATH, \
+from annotation.helpers.utils.constants.constants import EVENTS_ROOT_PATH, SLEEP_STAGES_ROOT_PATH, \
     BODY_POSITIONS_ROOT_PATH
-from annotation.helpers.Utilities.custom_exceptions import MissingRMLKeyError, InvalidRMLStructure
+from annotation.helpers.utils.custom_exceptions import MissingRMLKeyError, InvalidRMLStructure
 import logging
 
 logger = logging.getLogger(__name__)

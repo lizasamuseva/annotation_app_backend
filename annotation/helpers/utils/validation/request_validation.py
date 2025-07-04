@@ -1,5 +1,5 @@
 from rest_framework.exceptions import ValidationError
-from annotation.helpers.Utilities.constants.supported_requests_types import RequestContentType
+from annotation.helpers.utils.constants.supported_requests_types import RequestContentType
 
 
 class RequestValidation:

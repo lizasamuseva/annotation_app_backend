@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from annotation.helpers.Utilities.datetime_functions import DateTimeFunctions
+from annotation.helpers.utils.datetime_functions import DatetimeFunctions
 
 
 class ContinuousStructure(ABC):
@@ -72,7 +72,7 @@ class ContinuousStructureList(ContinuousStructure):
         # 1. Check whether the nodes (e.g. <Stage>, <BodyPositionItem>) did not run out of
         if self.current_number_of_element < self.root_length:
             # 2. Calculate the synchronized time of the record
-            current_element_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(
+            current_element_time = DatetimeFunctions.calculate_timedelta_plus_time_in_seconds(
                 self.root[self.current_number_of_element]["@Start"], rml_offset_time)
             # 3. Check whether the synchronized time equal to ePPG line time
             if line_time_in_seconds == current_element_time:
@@ -110,7 +110,7 @@ class ContinuousStructureNotList(ContinuousStructure):
         # 1. Check whether the element wasn't skipped
         if not self.element_was_skipped:
             # 2. Calculate the synchronized time
-            element_start_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.root["@Start"],
+            element_start_time = DatetimeFunctions.calculate_timedelta_plus_time_in_seconds(self.root["@Start"],
                                                                                             rml_offset_time)
             # 3. Adjust the annotation to the line, if the times (from RML and ePPG) are equal
             if line_time_in_seconds == element_start_time:

@@ -9,7 +9,7 @@ django.setup()
 from rest_framework.test import APIClient
 import pytest
 
-from annotation.helpers.Utilities.constants.constants import (
+from annotation.helpers.utils.constants.constants import (
     KEY_IN_REQUEST_RML,
     KEY_IN_REQUEST_EPPG,
     KEY_IN_REQUEST_REQUIRED_FILTERS,
@@ -17,7 +17,7 @@ from annotation.helpers.Utilities.constants.constants import (
 
 """
 This file contains tests that imitate the whole annotation flow process, but for specific situations of the created structures: continuous_structures and EventsStructures 
-The whole tests of this file can be run with the CLI: pytest -s annotation/tests/IntegrationTests/test_annotation_flow.py (this method is faster)
+The whole tests of this file can be run with the CLI: pytest -s annotation/tests/integration_tests/test_annotation_flow.py (this method is faster)
 """
 
 
@@ -60,10 +60,10 @@ def run_annotation_test(rml_path, eppg_path, expected_output_path, output_path, 
 # MAIN GENERAL DIRECTORIES
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-rml_base_directory = os.path.join(BASE_DIR, "TestsData")
-eppg_path = os.path.join(BASE_DIR, "TestsData", "ePPG_Data.txt")
-expected_out_base_directory = os.path.join(BASE_DIR, "TestsData", "ExpectedResults")
-out_base_directory = os.path.join(BASE_DIR, "TestsOutputs")
+rml_base_directory = os.path.join(BASE_DIR, "test_data")
+eppg_path = os.path.join(BASE_DIR, "test_data", "ePPG_Data.txt")
+expected_out_base_directory = os.path.join(BASE_DIR, "test_data", "ExpectedResults")
+out_base_directory = os.path.join(BASE_DIR, "test_outputs")
 
 # -------------------------------------EVENTS-----------------------------------------
 rml_events_path = os.path.join(rml_base_directory, "EventsStructureTesting")

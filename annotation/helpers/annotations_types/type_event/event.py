@@ -1,4 +1,4 @@
-from annotation.helpers.Utilities.datetime_functions import DateTimeFunctions
+from annotation.helpers.utils.datetime_functions import DatetimeFunctions
 
 
 class Event:
@@ -14,9 +14,9 @@ class Event:
         """
         self.create_event_name(event_info)
         self.non_synchronised_onset_time = event_info["@Start"]
-        self.synchronised_onset_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(
+        self.synchronised_onset_time = DatetimeFunctions.calculate_timedelta_plus_time_in_seconds(
             self.non_synchronised_onset_time, rml_offset_time)
-        self.end_time = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(self.synchronised_onset_time,
+        self.end_time = DatetimeFunctions.calculate_timedelta_plus_time_in_seconds(self.synchronised_onset_time,
                                                                                    event_info["@Duration"])
 
     def create_event_name(self, event):

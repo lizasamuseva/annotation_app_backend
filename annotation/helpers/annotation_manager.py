@@ -3,10 +3,10 @@ from datetime import timedelta
 from django.core.files.storage import FileSystemStorage
 from api import settings
 from .annotations_types.type_event.event_records_not_list import EventRecordsNotList
-from .Utilities.constants.constants import RECORD_TIME_ROOT_PATH
-from .Utilities.custom_exceptions import SessionExpired
-from .Utilities.datetime_functions import DateTimeFunctions
-from .Utilities.parser_rml import ParserRML
+from .utils.constants.constants import RECORD_TIME_ROOT_PATH
+from .utils.custom_exceptions import SessionExpired
+from .utils.datetime_functions import DatetimeFunctions
+from .utils.parser_rml import ParserRML
 from .annotations_types.type_event.event_records_list import EventRecordsList
 from .annotations_types.continuous_structures.continuous_structure import ContinuousStructureList, \
     ContinuousStructureNotList
@@ -47,13 +47,13 @@ class AnnotationManager:
         If the RML started before the ePPG, adjusts the ePPG line times(eppg_offset.
         """
 
-        rml_datetime_recording = DateTimeFunctions.convert_datetime_from_rml(
+        rml_datetime_recording = DatetimeFunctions.convert_datetime_from_rml(
             ParserRML.get_nested_root_element(self.RML_dict, RECORD_TIME_ROOT_PATH)
         )
 
-        ePPG_datetime_recording = DateTimeFunctions.convert_serial_number_to_date(
+        ePPG_datetime_recording = DatetimeFunctions.convert_serial_number_to_date(
             float(date_time_line.split("=")[1].split("\n")[0]))
-        time_offset = DateTimeFunctions.compare_datetime_from_rml_and_ePPG(rml_datetime_recording,
+        time_offset = DatetimeFunctions.compare_datetime_from_rml_and_ePPG(rml_datetime_recording,
                                                                            ePPG_datetime_recording)
 
         self.ePPG_offset_time = timedelta(seconds=0).total_seconds()
@@ -134,9 +134,9 @@ class AnnotationManager:
                 for line in lines[2:]:
                     line_time = line.split("\t")[0]
                     # Convert the time of the record from ePPG and convert it into seconds
-                    line_time_in_seconds = DateTimeFunctions.convert_time_of_occasion_into_seconds(line_time)
+                    line_time_in_seconds = DatetimeFunctions.convert_time_of_occasion_into_seconds(line_time)
                     # Calculate synchronized time of the record
-                    line_time_with_delta = DateTimeFunctions.calculate_timedelta_plus_time_in_seconds(
+                    line_time_with_delta = DatetimeFunctions.calculate_timedelta_plus_time_in_seconds(
                         line_time_in_seconds, self.ePPG_offset_time
                     )
                     string_comment = line

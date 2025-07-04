@@ -11,19 +11,19 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from annotation.helpers.annotation_manager import AnnotationManager
-from annotation.helpers.Utilities.constants.supported_requests_types import \
+from annotation.helpers.utils.constants.supported_requests_types import \
     RequestContentType
-from annotation.helpers.Utilities.constants.constants import CACHE_KEY_PARSED_RML, \
+from annotation.helpers.utils.constants.constants import CACHE_KEY_PARSED_RML, \
     CACHE_KEY_ALL_POSSIBLE_FILTERS, CACHE_KEY_REQUIRED_FILTERS, KEY_IN_REQUEST_REQUIRED_FILTERS, CACHE_KEY_EPPG_PATH
-from annotation.helpers.Utilities.custom_exceptions import MissingRMLKeyError, InvalidRMLStructure, \
+from annotation.helpers.utils.custom_exceptions import MissingRMLKeyError, InvalidRMLStructure, \
     EppgFileInvalid, SessionExpired
-from annotation.helpers.Utilities.file_manager import FileManager
-from annotation.helpers.Utilities.filters import Filters
-from annotation.helpers.Utilities.parser_rml import ParserRML
-from annotation.helpers.Utilities.validation.FileValidation.eppg_validation import EPPGValidation
-from annotation.helpers.Utilities.validation.FileValidation.rml_validation import RMLValidation
-from annotation.helpers.Utilities.validation.filter_validation import FilterValidation
-from annotation.helpers.Utilities.validation.request_validation import RequestValidation
+from annotation.helpers.utils.file_manager import FileManager
+from annotation.helpers.utils.filters import Filters
+from annotation.helpers.utils.parser_rml import ParserRML
+from annotation.helpers.utils.validation.FileValidation.eppg_validation import EPPGValidation
+from annotation.helpers.utils.validation.FileValidation.rml_validation import RMLValidation
+from annotation.helpers.utils.validation.filter_validation import FilterValidation
+from annotation.helpers.utils.validation.request_validation import RequestValidation
 from annotation.serializers import FiltersResponseSerializer
 
 logger = logging.getLogger(__name__)

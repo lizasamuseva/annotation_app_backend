@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 
-from annotation.helpers.Utilities.custom_exceptions import EppgFileInvalid
+from annotation.helpers.utils.custom_exceptions import EppgFileInvalid
 
 
-class DateTimeFunctions:
+class DatetimeFunctions:
     """
        Utility class for handling date and time conversions/synchronization related to ePPG and PSG files time difference.
     """
@@ -103,7 +103,7 @@ class DateTimeFunctions:
                 Input: "00:00:10.000"
                 Output: "10"
         """
-        time_in_dict = DateTimeFunctions.convert_time_of_record_into_dict_form(time)
+        time_in_dict = DatetimeFunctions.convert_time_of_record_into_dict_form(time)
 
         time_in_seconds = str(round(float(time_in_dict["hours"]) * 3600 + float(time_in_dict["minutes"]) * 60 + float(
             time_in_dict["seconds"]) + float(time_in_dict["milliseconds"]) * 0.001, 3))
