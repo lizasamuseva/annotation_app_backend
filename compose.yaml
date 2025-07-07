@@ -2,13 +2,9 @@ services:
   app:
     build: .
     restart: on-failure:10
-
-    ports:
-      - "8000:8000"
+    network_mode: host
 
   redis:
     image: redis:latest
     restart: on-failure:10
-
-    ports:
-      - "6379:6379"
+    network_mode: host
