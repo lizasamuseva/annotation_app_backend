@@ -45,4 +45,3 @@ class FiltersResultWrapperSerializer(serializers.Serializer):
 
 class FiltersResponseSerializer(serializers.Serializer):
     result = FiltersResultWrapperSerializer()
-

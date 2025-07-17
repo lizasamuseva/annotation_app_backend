@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    restart: on-failure:10
+    network_mode: host
+
+  redis:
+    image: redis:latest
+    restart: on-failure:10
+    network_mode: host
